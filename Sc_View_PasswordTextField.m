@@ -8,15 +8,6 @@
 
 #import "Sc_View_PasswordTextField.h"
 
-@interface Sc_View_PasswordTextField()
-{
-    id _didEndTarget;
-    SEL _didEndAction;
-    NSMutableArray *_fields;
-}
-
-@end
-
 @implementation Sc_View_PasswordTextField
 
 - (id) init
@@ -44,6 +35,7 @@
             text.returnKeyType = UIReturnKeyDone;
             text.textAlignment = UITextAlignmentCenter;
             text.font = [UIFont systemFontOfSize:24.0];
+            text.secureTextEntry = YES;
             text.delegate = self;
             
             if(0 < i)
@@ -55,8 +47,6 @@
             
             [_fields addObject:text];
             [self addSubview:text];
-            
-            [text release];
         }
         
         self.frame = CGRectMake(0, 0, width * count, height);
@@ -149,12 +139,6 @@
 {
     _didEndAction = nil;
     _didEndTarget = nil;
-}
-
-- (void) dealloc
-{
-    [_fields release];
-    [super dealloc];
 }
 
 @end
