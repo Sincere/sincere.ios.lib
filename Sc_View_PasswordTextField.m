@@ -10,9 +10,7 @@
 
 @interface Sc_View_PasswordTextField()
 {
-    id _didEndTarget;
-    SEL _didEndAction;
-    NSMutableArray *_fields;
+    
 }
 
 @end

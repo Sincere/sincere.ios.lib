@@ -10,7 +10,10 @@
 
 @interface Sc_View_PasswordTextField : UIView <UITextFieldDelegate>
 {
-    
+    @private
+        id _didEndTarget;
+        SEL _didEndAction;
+        NSMutableArray *_fields;
 }
 
 - (id) initWithFieldsCount: (int) count;
