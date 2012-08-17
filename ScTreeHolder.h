@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScTotemHolder : NSObject
-
+@interface ScTreeHolder : NSObject
+{
+    @private
+    NSMutableArray *_children;
+    NSMutableDictionary *_keyValue;
+}
+@property (nonatomic, assign) ScTreeHolder* parent;
+@property (nonatomic, readonly) NSInteger childCount;
+- (id)initWithValue: (id) value forKey: (NSString *)key;
+- (void)addChild:(ScTreeHolder *)holder;
+- (ScTreeHolder *)childAtIndex: (NSInteger) index;
+- (void) removeChildAtIndex: (NSInteger) index;
+- (void) removeChild: (ScTreeHolder *) child;
+- (void) removeValueForKey: (NSString *) key;
 @end
