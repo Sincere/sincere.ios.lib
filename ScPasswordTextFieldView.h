@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Sc_View_PasswordTextField : UIView <UITextFieldDelegate>
+@interface ScPasswordTextFieldView : UIView <UITextFieldDelegate>
 {
     @private
         id _didEndTarget;

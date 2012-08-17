@@ -6,16 +6,16 @@
 //  Copyright (c) 2012年 Miyata Keizo. All rights reserved.
 //
 
-#import "Sc_View_PasswordTextField.h"
+#import "ScPasswordTextFieldView.h"
 
-@interface Sc_View_PasswordTextField()
+@interface ScPasswordTextFieldView()
 {
     
 }
 
 @end
 
-@implementation Sc_View_PasswordTextField
+@implementation ScPasswordTextFieldView
 
 - (id) init
 {
@@ -126,7 +126,7 @@
                     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                    [_didEndTarget performSelector:_didEndAction withObject:(Sc_View_PasswordTextField*)self withObject:resutl];
+                    [_didEndTarget performSelector:_didEndAction withObject:(ScPasswordTextFieldView*)self withObject:resutl];
 #pragma clang diagnostic pop
                 }
             }
