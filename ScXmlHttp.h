@@ -7,21 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DDXML.h"
 
-@protocol FcnApiDelegate
+@protocol ScXmlHttpDelegate
 
-//- (void)willStartLoading;
+- (void) xmlDidFinishLoading:(DDXMLElement *) rootElement;
 
 @end
 
-@interface ScXmlHttp : NSObject
+@interface ScXmlHttp : NSObject <NSURLConnectionDelegate>
 {
     @private
-    id<FcnApiDelegate> delegate;
-    NSString *uri;
+    id<ScXmlHttpDelegate> _delegate;
+    NSURLRequest *_request;
+    NSMutableData *_receivedData;
+    UIProgressView *_progressView;
+    float _totalBytes;
+    float _loadedBytes;
+    //DDXMLElement *_rootElement;
 }
 
-- (id) initWithUri: (NSString *) uri delegate: (id<FcnApiDelegate>) delegate;
+- (id) initWithUri: (NSString *) uri delegate: (id<ScXmlHttpDelegate>) delegate;
 - (void) load;
+- (void) setProgressBar: (UIProgressView *) progress;
 
 @end
