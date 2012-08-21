@@ -14,7 +14,7 @@
     NSMutableArray *_children;
     NSMutableDictionary *_keyValue;
 }
-@property (nonatomic, assign) ScTreeHolder* parent;
+@property (nonatomic, weak) ScTreeHolder* parent;
 @property (nonatomic, readonly) NSInteger childCount;
 - (id)initWithValue: (id) value forKey: (NSString *)key;
 - (void)addChild:(ScTreeHolder *)holder;

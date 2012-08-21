@@ -35,6 +35,12 @@
 
 - (void)addChild:(ScTreeHolder *)child
 {
+    if(child.parent)
+    {
+        [NSException raise:@"ScTreeHolderException" format:@"[%@] already has parent.", child];
+        //[child.parent removeChild:child];
+    }
+    
     child.parent = self;
     [_children addObject: child];
 }
