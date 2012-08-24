@@ -11,7 +11,8 @@
 
 @protocol ScXmlHttpDelegate
 
-- (void) xmlDidFinishLoading:(DDXMLElement *) rootElement;
+- (void)xmlDidFinishLoading:(DDXMLElement *) rootElement;
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 
 @end
 
