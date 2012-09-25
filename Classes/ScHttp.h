@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSURL+ScURLUtil.h"
+#import "NSString+ScStringUtil.h"
 
 @protocol ScHttpDelegate
 

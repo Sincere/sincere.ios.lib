@@ -86,12 +86,12 @@
         {
             for (id val in value)
             {
-                [strParams appendFormat:@"%@[]=%@&", key, [self _uriEncodeForString:val]];
+                [strParams appendFormat:@"%@[]=%@&", key, [val stringUrlEncoded]];
             }
         }
         else if(value)
         {
-            [strParams appendFormat:@"%@=%@&", key, [self _uriEncodeForString:value]];
+            [strParams appendFormat:@"%@=%@&", key, [value stringUrlEncoded]];
         }
     }
     
@@ -102,15 +102,6 @@
     }
     
     return strParams;
-}
-
-- (NSString*)_uriEncodeForString:(NSString *)str {
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                        NULL,
-                                                        (CFStringRef)str,
-                                                        NULL,
-                                                        (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                        kCFStringEncodingUTF8 ));
 }
 
 - (void)connection:(NSURLConnection *)connection
