@@ -34,6 +34,11 @@
     return self;
 }
 
+- (void) enableAutoLoad: (NSTimeInterval) sec
+{
+    _autoloadSec = sec;
+}
+
 - (void) setHttpMethod: (NSString *) method
 {
     _httpMethod = method;
@@ -152,7 +157,45 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void) setParam: (id)params forKey: (NSString *)key
 {
-    [_params setObject:params forKey:key];
+    bool change = NO;
+    id currentValue = [_params objectForKey: key];
+    
+    if(currentValue == nil)
+    {
+        change = YES;
+    }
+    else if([currentValue isKindOfClass:[NSArray class]])
+    {
+        if(![params isKindOfClass:[NSArray class]])
+        {
+            change = YES;
+        }
+        else if([currentValue count] != [params count])
+        {
+            change = YES;
+        }
+        else
+        {
+            for (id cval in currentValue)
+            {
+                if([params indexOfObject:cval] == NSNotFound)
+                {
+                    change = YES;
+                    break;
+                }
+            }
+        }
+    }
+    else
+    {
+        change = [currentValue isEqual:params];
+    }
+    
+    if(change)
+    {
+        [_params setObject:params forKey:key];
+        [self _onChangeParameterFrom:currentValue to: params on: key];
+    }
 }
 
 - (NSArray *) arrayForKey: (NSString *) key
@@ -177,5 +220,21 @@ didReceiveResponse:(NSURLResponse *)response
     
     return (NSString *) value;
 }
+
+- (void) _onChangeParameterFrom:(id) currentValue to:(id) newValue on:(id) key
+{
+    if(_autoloadSec > 0)
+    {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_autoLoadTimerEnd) object:nil];
+        [self performSelector:@selector(_autoLoadTimerEnd) withObject:nil afterDelay: _autoloadSec];
+    }
+}
+
+-(void)_autoLoadTimerEnd
+{
+    NSLog(@"Call auto load end");
+    [self load];
+}
+
 
 @end

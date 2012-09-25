@@ -26,6 +26,7 @@
     NSURLConnection *_currentConnection;
     NSString *_baseUri;
     NSString *_httpMethod;
+    NSTimeInterval _autoloadSec;
     
     @protected
     NSMutableData *_receivedData;
@@ -40,6 +41,7 @@
 - (void) setProgressBar: (UIProgressView *) progress;
 - (void) setParam: (id)params forKey: (NSString *)key;
 - (void) setHttpMethod: (NSString *) method;
+- (void) enableAutoLoad: (NSTimeInterval) sec;
 - (NSArray *) arrayForKey: (NSString *) key;
 - (NSString *) stringForKey: (NSString *) key;
 @end

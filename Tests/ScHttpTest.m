@@ -13,7 +13,23 @@
 
 - (void)setUpClass
 {
-    _timeout = 10.0;
+    _timeout = 10;
+}
+
+#pragma mark - Tests
+
+- (void)testAutoLoad
+{
+    [self prepare];
+    
+    _assertFunc = @selector(assertAutoLoadRequest:);
+    
+    ScHttp *http = [[ScHttp alloc] initWithUri:@"http://test.api.fotocase.jp/test/ioslib" delegate: self];
+    [http enableAutoLoad: 2];
+    [http setParam:@"value" forKey:@"string"];
+    [http setParam:@"plusValue" forKey:@"plus"];
+    
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout: _timeout];
 }
 
 - (void)testPostRequest {
@@ -68,6 +84,8 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout: _timeout];
 }
 
+#pragma mark - For async
+
 - (void)postXmlRequest
 {
     ScHttpXml *http = [[ScHttpXml alloc] initWithUri:@"http://test.api.fotocase.jp/test/ioslib" delegate: self];
@@ -102,25 +120,12 @@
     [http load];
 }
 
-- (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response
+#pragma mark - assertFunc
+- (void)assertAutoLoadRequest: (DDXMLElement *) element
 {
-    NSLog(@"%@", [connection currentRequest]);
-    
-    DDXMLElement *rootElem;
-    if([response isKindOfClass:[NSData class]])
-    {
-        NSString *xmlString = [[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding];
-        DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:xmlString options:0 error:nil];
-        rootElem = [doc rootElement];
-    }
-    else
-    {
-        rootElem = response;
-    }
-    
-    
-    [self performSelector:_assertFunc withObject:rootElem afterDelay:0.0];
+    [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testAutoLoad)];
 }
+
 
 - (void)assertGetRequest: (DDXMLElement *) element
 {
@@ -192,6 +197,28 @@
     GHAssertEqualStrings(@"", [post stringValue], @"postがカラじゃない");
     
     [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testXmlGetRequest)];
+}
+
+#pragma mark - ScHttpDelegate
+
+- (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response
+{
+    NSLog(@"%@", [connection currentRequest]);
+    
+    DDXMLElement *rootElem;
+    if([response isKindOfClass:[NSData class]])
+    {
+        NSString *xmlString = [[NSString alloc]initWithData:response encoding:NSUTF8StringEncoding];
+        DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:xmlString options:0 error:nil];
+        rootElem = [doc rootElement];
+    }
+    else
+    {
+        rootElem = response;
+    }
+    
+    
+    [self performSelector:_assertFunc withObject:rootElem afterDelay:0.0];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
