@@ -13,7 +13,7 @@
 
 - (void)setUpClass
 {
-    _timeout = 6.0;
+    _timeout = 10.0;
 }
 
 - (void)testPostRequest {
