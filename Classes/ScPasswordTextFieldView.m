@@ -8,13 +8,6 @@
 
 #import "ScPasswordTextFieldView.h"
 
-@interface ScPasswordTextFieldView()
-{
-    
-}
-
-@end
-
 @implementation ScPasswordTextFieldView
 
 - (id) init
