@@ -40,7 +40,7 @@
             text.borderStyle = UITextBorderStyleBezel;
             text.keyboardType = UIKeyboardTypeNumberPad;
             text.returnKeyType = UIReturnKeyDone;
-            text.textAlignment = UITextAlignmentCenter;
+            text.textAlignment = NSTextAlignmentCenter;
             text.font = [UIFont systemFontOfSize:24.0];
             text.secureTextEntry = YES;
             text.delegate = self;
