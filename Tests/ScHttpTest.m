@@ -226,4 +226,13 @@
     [self notify:kGHUnitWaitStatusFailure];
 }
 
+- (void)startAutoLoadWait
+{
+    NSLog(@"startAutoLoadWait");
+}
+- (void)endAutoLoadWait
+{
+    NSLog(@"endAutoLoadWait");
+}
+
 @end

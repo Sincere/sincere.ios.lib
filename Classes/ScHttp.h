@@ -15,6 +15,10 @@
 - (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 
+@optional
+- (void)startAutoLoadWait;
+- (void)endAutoLoadWait;
+
 @end
 
 @interface ScHttp : NSObject<NSURLConnectionDelegate>
@@ -27,6 +31,7 @@
     NSString *_baseUri;
     NSString *_httpMethod;
     NSTimeInterval _autoloadSec;
+    BOOL _autoloadWaiting;
     
     @protected
     NSMutableData *_receivedData;

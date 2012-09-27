@@ -15,6 +15,7 @@
     self = [super init];
     if (self != nil)
     {
+        _autoloadWaiting = NO;
         _receivedData = [[NSMutableData alloc] init];
         _baseUri = uri;
         _params = [[NSMutableDictionary alloc] init];
@@ -48,6 +49,16 @@
 {
     @synchronized(self)
     {
+        if(_autoloadWaiting)
+        {
+            if([(NSObject *)self.delegate respondsToSelector:@selector(endAutoLoadWait)])
+            {
+                [self.delegate endAutoLoadWait];
+            }
+            
+            _autoloadWaiting = NO;
+        }
+        
         //リセット
         [_currentConnection cancel];
         
@@ -158,6 +169,7 @@ didReceiveResponse:(NSURLResponse *)response
 - (void) setParam: (id)params forKey: (NSString *)key
 {
     bool change = NO;
+    id cParams = [params copy];
     id currentValue = [_params objectForKey: key];
     
     if(currentValue == nil)
@@ -166,11 +178,11 @@ didReceiveResponse:(NSURLResponse *)response
     }
     else if([currentValue isKindOfClass:[NSArray class]])
     {
-        if(![params isKindOfClass:[NSArray class]])
+        if(![cParams isKindOfClass:[NSArray class]])
         {
             change = YES;
         }
-        else if([currentValue count] != [params count])
+        else if([currentValue count] != [cParams count])
         {
             change = YES;
         }
@@ -178,7 +190,7 @@ didReceiveResponse:(NSURLResponse *)response
         {
             for (id cval in currentValue)
             {
-                if([params indexOfObject:cval] == NSNotFound)
+                if([cParams indexOfObject:cval] == NSNotFound)
                 {
                     change = YES;
                     break;
@@ -188,13 +200,15 @@ didReceiveResponse:(NSURLResponse *)response
     }
     else
     {
-        change = [currentValue isEqual:params];
+        change = [currentValue isEqual:cParams];
     }
+    
+    
     
     if(change)
     {
-        [_params setObject:params forKey:key];
-        [self _onChangeParameterFrom:currentValue to: params on: key];
+        [_params setObject:cParams forKey:key];
+        [self _onChangeParameterFrom:currentValue to: cParams on: key];
     }
 }
 
@@ -203,7 +217,7 @@ didReceiveResponse:(NSURLResponse *)response
     id value = [_params objectForKey:key];
     if([value isKindOfClass:[NSArray class]])
     {
-        return (NSArray *) value;
+        return (NSArray *)value;
     }
     
     NSArray *array = [[NSArray alloc] initWithObjects:value, nil];
@@ -225,15 +239,19 @@ didReceiveResponse:(NSURLResponse *)response
 {
     if(_autoloadSec > 0)
     {
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_autoLoadTimerEnd) object:nil];
-        [self performSelector:@selector(_autoLoadTimerEnd) withObject:nil afterDelay: _autoloadSec];
+        if(_autoloadWaiting == NO)
+        {
+            if([(NSObject *)self.delegate respondsToSelector:@selector(startAutoLoadWait)])
+            {
+                [self.delegate startAutoLoadWait];
+            }
+            
+            _autoloadWaiting = YES;
+        }
+        
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(load) object:nil];
+        [self performSelector:@selector(load) withObject:nil afterDelay: _autoloadSec];
     }
-}
-
--(void)_autoLoadTimerEnd
-{
-    NSLog(@"Call auto load end");
-    [self load];
 }
 
 
