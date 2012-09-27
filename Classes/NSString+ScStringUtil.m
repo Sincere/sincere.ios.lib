@@ -20,4 +20,28 @@
                                                                                  kCFStringEncodingUTF8 ));
 }
 
+- (BOOL)isEqualAsQueryString:(NSString *)queryString
+{
+    NSArray *selfArray = [self componentsSeparatedByString: @"&"];
+    NSArray *targetArray = [queryString componentsSeparatedByString:@"&"];
+    
+    if([selfArray count] != [targetArray count])
+    {
+        return NO;
+    }
+    
+    selfArray = [selfArray sortedArrayUsingSelector:@selector(compare:)];
+    targetArray = [targetArray sortedArrayUsingSelector:@selector(compare:)];
+    
+    for (int i=0; i < [selfArray count]; i++)
+    {
+        if(![[selfArray objectAtIndex:i] isEqual:[targetArray objectAtIndex:i]])
+        {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+    
 @end

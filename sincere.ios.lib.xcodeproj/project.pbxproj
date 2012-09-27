@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C06DC8B1613E66D007CBC61 /* ScStringUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */; };
 		2CF8A34D160DC550007062D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34C160DC550007062D5 /* UIKit.framework */; };
 		2CF8A34F160DC550007062D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34E160DC550007062D5 /* Foundation.framework */; };
 		2CF8A351160DC550007062D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A350160DC550007062D5 /* CoreGraphics.framework */; };
@@ -51,6 +52,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C06DC891613E66D007CBC61 /* ScStringUtilTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScStringUtilTest.h; sourceTree = "<group>"; };
+		2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScStringUtilTest.m; sourceTree = "<group>"; };
 		2CF8A348160DC550007062D5 /* sincere.ios.lib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sincere.ios.lib.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF8A34C160DC550007062D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2CF8A34E160DC550007062D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -185,6 +188,8 @@
 			isa = PBXGroup;
 			children = (
 				2CF8A564160DC660007062D5 /* Supporting Files */,
+				2C06DC891613E66D007CBC61 /* ScStringUtilTest.h */,
+				2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */,
 				2CF8A8AD160DCBD3007062D5 /* ScHttpTest.h */,
 				2CF8A8AE160DCBD3007062D5 /* ScHttpTest.m */,
 			);
@@ -396,6 +401,7 @@
 				2CF8B121160F37C1007062D5 /* ScPasswordTextFieldView.m in Sources */,
 				2CF8B123160F37C1007062D5 /* ScTreeHolder.m in Sources */,
 				2CF8B14316114D09007062D5 /* NSString+ScStringUtil.m in Sources */,
+				2C06DC8B1613E66D007CBC61 /* ScStringUtilTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +586,7 @@
 				2CF8A577160DC660007062D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
