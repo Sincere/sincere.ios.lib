@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C06DC8B1613E66D007CBC61 /* ScStringUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */; };
+		2C06DC8F1613FF4B007CBC61 /* ScArrayUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */; };
 		2CF8A34D160DC550007062D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34C160DC550007062D5 /* UIKit.framework */; };
 		2CF8A34F160DC550007062D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34E160DC550007062D5 /* Foundation.framework */; };
 		2CF8A351160DC550007062D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A350160DC550007062D5 /* CoreGraphics.framework */; };
@@ -54,6 +55,8 @@
 /* Begin PBXFileReference section */
 		2C06DC891613E66D007CBC61 /* ScStringUtilTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScStringUtilTest.h; sourceTree = "<group>"; };
 		2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScStringUtilTest.m; sourceTree = "<group>"; };
+		2C06DC8D1613FF4B007CBC61 /* ScArrayUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScArrayUtil.h; sourceTree = "<group>"; };
+		2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScArrayUtil.m; sourceTree = "<group>"; };
 		2CF8A348160DC550007062D5 /* sincere.ios.lib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sincere.ios.lib.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF8A34C160DC550007062D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2CF8A34E160DC550007062D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -192,6 +195,8 @@
 				2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */,
 				2CF8A8AD160DCBD3007062D5 /* ScHttpTest.h */,
 				2CF8A8AE160DCBD3007062D5 /* ScHttpTest.m */,
+				2C06DC8D1613FF4B007CBC61 /* ScArrayUtil.h */,
+				2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -402,6 +407,7 @@
 				2CF8B123160F37C1007062D5 /* ScTreeHolder.m in Sources */,
 				2CF8B14316114D09007062D5 /* NSString+ScStringUtil.m in Sources */,
 				2C06DC8B1613E66D007CBC61 /* ScStringUtilTest.m in Sources */,
+				2C06DC8F1613FF4B007CBC61 /* ScArrayUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

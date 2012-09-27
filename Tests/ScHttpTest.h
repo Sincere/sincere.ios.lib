@@ -11,11 +11,15 @@
 #import "ScHttpXml.h"
 #import "DDXML.h"
 
+const int kScWaitStatusAutoloadEnd = 100;
+
+
 @interface ScHttpTest : GHAsyncTestCase<ScHttpDelegate>
 {
     @private
     SEL _assertFunc;
     double _timeout;
+    NSString *_autoLoadStatus;
 }
 
 @end

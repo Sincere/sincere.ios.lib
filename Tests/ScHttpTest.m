@@ -14,6 +14,7 @@
 - (void)setUpClass
 {
     _timeout = 10;
+    _autoLoadStatus = @"STOP";
 }
 
 #pragma mark - Tests
@@ -26,10 +27,23 @@
     
     ScHttp *http = [[ScHttp alloc] initWithUri:@"http://test.api.fotocase.jp/test/ioslib" delegate: self];
     [http enableAutoLoad: 2];
+    GHAssertEqualStrings(_autoLoadStatus, @"STOP", @"Autoloadは止まっているはず");
     [http setParam:@"value" forKey:@"string"];
+    GHAssertEqualStrings(_autoLoadStatus, @"WAITING", @"Autoloadは動いた");
     [http setParam:@"plusValue" forKey:@"plus"];
+    [http setParam:[NSArray arrayWithObjects:@"1", @"2", nil] forKey:@"array"];
     
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout: _timeout];
+    GHAssertEqualStrings(_autoLoadStatus, @"STOP", @"Autoloadは止まっているはず");
+    
+    [http setParam:@"plusValue" forKey:@"plus"];
+    GHAssertEqualStrings(_autoLoadStatus, @"STOP", @"値が同じなのでAutoloadは動かないはず");
+    [http setParam:[NSArray arrayWithObjects:@"2", @"1", nil] forKey:@"array"];
+    GHAssertEqualStrings(_autoLoadStatus, @"STOP", @"値が同じなのでAutoloadは動かないはず");
+    
+    [http setParam:[NSArray arrayWithObjects:@"2", nil] forKey:@"array"];
+    GHAssertEqualStrings(_autoLoadStatus, @"WAITING", @"Autoloadは動いた");
+    [http setParam:[NSArray arrayWithObjects:@"2", @"1", nil] forKey:@"array"];
 }
 
 - (void)testPostRequest {
@@ -228,11 +242,11 @@
 
 - (void)startAutoLoadWait
 {
-    NSLog(@"startAutoLoadWait");
+    _autoLoadStatus = @"WAITING";
 }
 - (void)endAutoLoadWait
 {
-    NSLog(@"endAutoLoadWait");
+    _autoLoadStatus = @"STOP";
 }
 
 @end

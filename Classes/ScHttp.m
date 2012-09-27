@@ -59,6 +59,20 @@
             _autoloadWaiting = NO;
         }
         
+        //クエリに変更がなければアクセスの必要なし
+        NSString *query = [self _buildParameters];
+        
+        if(_prevQuery != nil)
+        {
+            if ([query isEqualAsQueryString:_prevQuery])
+            {
+                _prevQuery = query;
+                return;
+            }
+        }
+        
+        _prevQuery = query;
+        
         //リセット
         [_currentConnection cancel];
         
@@ -71,7 +85,7 @@
         
         if([request.HTTPMethod isEqualToString:@"POST"])
         {
-            NSData *httpBody = [[self _buildParameters] dataUsingEncoding:NSUTF8StringEncoding];
+            NSData *httpBody = [query dataUsingEncoding:NSUTF8StringEncoding];
             
             [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
             [request setValue:[NSString stringWithFormat:@"%d", [httpBody length]] forHTTPHeaderField:@"Content-Length"];
@@ -79,7 +93,7 @@
         }
         else
         {
-            request.URL = [request.URL URLByAppendingQueryString:[self _buildParameters]];
+            request.URL = [request.URL URLByAppendingQueryString:query];
         }
         
         //リクエストスタート
@@ -172,6 +186,8 @@ didReceiveResponse:(NSURLResponse *)response
     id cParams = [params copy];
     id currentValue = [_params objectForKey: key];
     
+    //NSLog(@"%@", currentValue);
+    
     if(currentValue == nil)
     {
         change = YES;
@@ -188,9 +204,11 @@ didReceiveResponse:(NSURLResponse *)response
         }
         else
         {
-            for (id cval in currentValue)
+            currentValue = [currentValue sortedArrayUsingSelector:@selector(compare:)];
+            cParams = [cParams sortedArrayUsingSelector:@selector(compare:)];
+            for (int i = 0; i < [currentValue count]; i++)
             {
-                if([cParams indexOfObject:cval] == NSNotFound)
+                if(![[currentValue objectAtIndex:i] isEqual:[cParams objectAtIndex:i]])
                 {
                     change = YES;
                     break;
@@ -200,15 +218,23 @@ didReceiveResponse:(NSURLResponse *)response
     }
     else
     {
-        change = [currentValue isEqual:cParams];
+        change = ![currentValue isEqual:cParams];
     }
-    
-    
     
     if(change)
     {
         [_params setObject:cParams forKey:key];
         [self _onChangeParameterFrom:currentValue to: cParams on: key];
+    }
+}
+
+- (void) removeParam:(NSString *)key
+{
+    id currentValue = [_params objectForKey:key];
+    if(currentValue != nil)
+    {
+        [_params removeObjectForKey:key];
+        [self _onChangeParameterFrom:currentValue to: nil on: key];
     }
 }
 
