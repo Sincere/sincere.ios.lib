@@ -442,7 +442,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -456,8 +457,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7s armv7";
 			};
 			name = Debug;
 		};
@@ -470,17 +475,22 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7s armv7";
 			};
 			name = Release;
 		};
@@ -519,7 +529,8 @@
 		2CF8A576160DC660007062D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../gh-unit/Examples/MyTestable-iOS\"",
@@ -530,12 +541,14 @@
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2";
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
-					"-all_load",
 					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -543,7 +556,8 @@
 		2CF8A577160DC660007062D5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Masamoto Miyata (BHWB5PV95K)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../gh-unit/Examples/MyTestable-iOS\"",
@@ -554,12 +568,14 @@
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2";
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
-					"-all_load",
 					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BBE17937-15B2-4ACD-BF17-77836BC67CA5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

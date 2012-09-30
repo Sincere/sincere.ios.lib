@@ -42,7 +42,7 @@
 
 - (void) setHttpMethod: (NSString *) method
 {
-    _httpMethod = method;
+    _httpMethod = [method uppercaseString];
 }
 
 - (void) load
@@ -60,7 +60,7 @@
         }
         
         //クエリに変更がなければアクセスの必要なし
-        NSString *query = [self _buildParameters];
+        NSString *query = [self buildParameters];
         
         if(_prevQuery != nil)
         {
@@ -105,7 +105,7 @@
     }
 }
 
-- (NSString*)_buildParameters
+- (NSString*)buildParameters
 {
     NSMutableString *strParams = [NSMutableString string];
     
@@ -134,46 +134,7 @@
     return strParams;
 }
 
-- (void)connection:(NSURLConnection *)connection
-didReceiveResponse:(NSURLResponse *)response
-{
-    _totalBytes = [response expectedContentLength];
-    _loadedBytes = 0.0;
-    
-    if(_progressView)
-    {
-        [_progressView setProgress:_loadedBytes];
-    }
-    
-    [_receivedData setLength:_loadedBytes];
-}
 
-- (void)connection:(NSURLConnection *)connection
-    didReceiveData:(NSData *)data
-{
-    if(_progressView)
-    {
-        _loadedBytes += [data length];
-        [_progressView setProgress:(_loadedBytes/_totalBytes)];
-    }
-    
-    [_receivedData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    [self.delegate connection:connection didFailWithError:error];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    if(_progressView)
-    {
-        [_progressView setProgress:1.0];
-    }
-    
-    [self.delegate connection: connection didFinishLoading:_receivedData];
-}
 
 - (void) setProgressBar: (UIProgressView *) progress
 {
@@ -224,7 +185,7 @@ didReceiveResponse:(NSURLResponse *)response
     if(change)
     {
         [_params setObject:cParams forKey:key];
-        [self _onChangeParameterFrom:currentValue to: cParams on: key];
+        [self onChangeParameterFrom:currentValue to: cParams on: key];
     }
 }
 
@@ -234,7 +195,7 @@ didReceiveResponse:(NSURLResponse *)response
     if(currentValue != nil)
     {
         [_params removeObjectForKey:key];
-        [self _onChangeParameterFrom:currentValue to: nil on: key];
+        [self onChangeParameterFrom:currentValue to: nil on: key];
     }
 }
 
@@ -261,7 +222,7 @@ didReceiveResponse:(NSURLResponse *)response
     return (NSString *) value;
 }
 
-- (void) _onChangeParameterFrom:(id) currentValue to:(id) newValue on:(id) key
+- (void) onChangeParameterFrom:(id) currentValue to:(id) newValue on:(id) key
 {
     if(_autoloadSec > 0)
     {
@@ -280,5 +241,46 @@ didReceiveResponse:(NSURLResponse *)response
     }
 }
 
+#pragma mark - NSURLConnectionDelegate
+- (void)connection:(NSURLConnection *)connection
+didReceiveResponse:(NSURLResponse *)response
+{
+    _totalBytes = [response expectedContentLength];
+    _loadedBytes = 0.0;
+    
+    if(_progressView)
+    {
+        [_progressView setProgress:_loadedBytes];
+    }
+    
+    [_receivedData setLength:_loadedBytes];
+}
+
+- (void)connection:(NSURLConnection *)connection
+    didReceiveData:(NSData *)data
+{
+    if(_progressView)
+    {
+        _loadedBytes += [data length];
+        [_progressView setProgress:(_loadedBytes/_totalBytes)];
+    }
+    
+    [_receivedData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [self.delegate connection:connection didFailWithError:error];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    if(_progressView)
+    {
+        [_progressView setProgress:1.0];
+    }
+    
+    [self.delegate connection: connection didFinishLoading:_receivedData];
+}
 
 @end
