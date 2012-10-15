@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C06DC8B1613E66D007CBC61 /* ScStringUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */; };
 		2C06DC8F1613FF4B007CBC61 /* ScArrayUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */; };
+		2C76BF57162BD88E009354E8 /* ScPopverControllerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C76BF56162BD88E009354E8 /* ScPopverControllerHelper.m */; };
 		2CF8A34D160DC550007062D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34C160DC550007062D5 /* UIKit.framework */; };
 		2CF8A34F160DC550007062D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34E160DC550007062D5 /* Foundation.framework */; };
 		2CF8A351160DC550007062D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A350160DC550007062D5 /* CoreGraphics.framework */; };
@@ -57,6 +58,8 @@
 		2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScStringUtilTest.m; sourceTree = "<group>"; };
 		2C06DC8D1613FF4B007CBC61 /* ScArrayUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScArrayUtil.h; sourceTree = "<group>"; };
 		2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScArrayUtil.m; sourceTree = "<group>"; };
+		2C76BF55162BD88E009354E8 /* ScPopverControllerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScPopverControllerHelper.h; sourceTree = "<group>"; };
+		2C76BF56162BD88E009354E8 /* ScPopverControllerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScPopverControllerHelper.m; sourceTree = "<group>"; };
 		2CF8A348160DC550007062D5 /* sincere.ios.lib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sincere.ios.lib.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF8A34C160DC550007062D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2CF8A34E160DC550007062D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -274,6 +277,8 @@
 				2CF8B117160F37C1007062D5 /* ScPasswordTextFieldView.m */,
 				2CF8B118160F37C1007062D5 /* ScTreeHolder.h */,
 				2CF8B119160F37C1007062D5 /* ScTreeHolder.m */,
+				2C76BF55162BD88E009354E8 /* ScPopverControllerHelper.h */,
+				2C76BF56162BD88E009354E8 /* ScPopverControllerHelper.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -386,6 +391,7 @@
 				2CF8B120160F37C1007062D5 /* ScPasswordTextFieldView.m in Sources */,
 				2CF8B122160F37C1007062D5 /* ScTreeHolder.m in Sources */,
 				2CF8B14216114D09007062D5 /* NSString+ScStringUtil.m in Sources */,
+				2C76BF57162BD88E009354E8 /* ScPopverControllerHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
