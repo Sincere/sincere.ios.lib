@@ -67,7 +67,8 @@
     
     [window.rootViewController presentSemiViewController:_forPhoneController withOptions:@{
      KNSemiModalOptionKeys.pushParentBack : @(NO),
-     KNSemiModalOptionKeys.parentAlpha : @(0.8)
+     KNSemiModalOptionKeys.parentAlpha : @(0.8),
+     KNSemiModalOptionKeys.animationDuration : @(0.2),
 	 }];
 }
 
