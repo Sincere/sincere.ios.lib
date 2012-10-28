@@ -7,30 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UIViewController+KNSemiModal.h"
 
-@class ScPopverControllerHelper;
-@protocol ScPopoverControllerHelperDelegate
-- (void)popoverControllerDidDismissHelper:(ScPopverControllerHelper *)helper;
+@class ScUniversalPopverController;
+@protocol ScUniversalPopoverControllerDelegate
+- (void)popoverControllerDidDismissController:(ScUniversalPopverController *)controller;
 @end
 
-@interface ScPopverControllerHelper : NSObject<UIPopoverControllerDelegate>
+@interface ScUniversalPopverController : NSObject<UIPopoverControllerDelegate>
 {
     @private
     UIPopoverController *_forPadController;
     UIViewController *_forPhoneController;
 }
 
-@property (nonatomic, strong) id<ScPopoverControllerHelperDelegate> delegate;
+@property (nonatomic, strong) id<ScUniversalPopoverControllerDelegate> delegate;
 
-- (id)initWithInnerView:(UIView *)innerView;
+- (id)initWithViewController:(UIViewController *)viewController;
 
 - (void)presentPopoverFromRect:(CGRect)rect inView:(UIView *)view permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated;
+
+- (void)presentPopoverFromBarButtonItem:(UIBarButtonItem *)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated;
 
 - (void)dismissPopoverAnimated:(BOOL)animated;
 
 - (BOOL)isModalController;
 
 #pragma mark - protected methods
-- (UIViewController *) _createViewController;
 - (UIPopoverController *) _createPopoverControllerWithContentViewController:(UIViewController *) contentViewController;
 @end
