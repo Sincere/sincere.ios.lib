@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C06DC8B1613E66D007CBC61 /* ScStringUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */; };
 		2C06DC8F1613FF4B007CBC61 /* ScArrayUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */; };
-		2C1B403D163CE01B0059D89F /* ScUniversalPopverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B4039163CE01B0059D89F /* ScUniversalPopverController.m */; };
+		2C1B403D163CE01B0059D89F /* GmUniversalPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B4039163CE01B0059D89F /* GmUniversalPopoverController.m */; };
 		2C1B403E163CE01B0059D89F /* UIImage+ScResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B403B163CE01B0059D89F /* UIImage+ScResize.m */; };
 		2CF8A34D160DC550007062D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34C160DC550007062D5 /* UIKit.framework */; };
 		2CF8A34F160DC550007062D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34E160DC550007062D5 /* Foundation.framework */; };
@@ -59,8 +59,8 @@
 		2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScStringUtilTest.m; sourceTree = "<group>"; };
 		2C06DC8D1613FF4B007CBC61 /* ScArrayUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScArrayUtil.h; sourceTree = "<group>"; };
 		2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScArrayUtil.m; sourceTree = "<group>"; };
-		2C1B4039163CE01B0059D89F /* ScUniversalPopverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScUniversalPopverController.m; sourceTree = "<group>"; };
-		2C1B403A163CE01B0059D89F /* ScUniversalPopverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScUniversalPopverController.h; sourceTree = "<group>"; };
+		2C1B4039163CE01B0059D89F /* GmUniversalPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmUniversalPopoverController.m; sourceTree = "<group>"; };
+		2C1B403A163CE01B0059D89F /* GmUniversalPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmUniversalPopoverController.h; sourceTree = "<group>"; };
 		2C1B403B163CE01B0059D89F /* UIImage+ScResize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ScResize.m"; sourceTree = "<group>"; };
 		2C1B403C163CE01B0059D89F /* UIImage+ScResize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ScResize.h"; sourceTree = "<group>"; };
 		2CF8A348160DC550007062D5 /* sincere.ios.lib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sincere.ios.lib.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,8 +268,8 @@
 		2CF8B10F160F37C1007062D5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2C1B4039163CE01B0059D89F /* ScUniversalPopverController.m */,
-				2C1B403A163CE01B0059D89F /* ScUniversalPopverController.h */,
+				2C1B4039163CE01B0059D89F /* GmUniversalPopoverController.m */,
+				2C1B403A163CE01B0059D89F /* GmUniversalPopoverController.h */,
 				2C1B403C163CE01B0059D89F /* UIImage+ScResize.h */,
 				2C1B403B163CE01B0059D89F /* UIImage+ScResize.m */,
 				2CF8B14016114D09007062D5 /* NSString+ScStringUtil.h */,
@@ -396,7 +396,7 @@
 				2CF8B120160F37C1007062D5 /* ScPasswordTextFieldView.m in Sources */,
 				2CF8B122160F37C1007062D5 /* ScTreeHolder.m in Sources */,
 				2CF8B14216114D09007062D5 /* NSString+ScStringUtil.m in Sources */,
-				2C1B403D163CE01B0059D89F /* ScUniversalPopverController.m in Sources */,
+				2C1B403D163CE01B0059D89F /* GmUniversalPopoverController.m in Sources */,
 				2C1B403E163CE01B0059D89F /* UIImage+ScResize.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
