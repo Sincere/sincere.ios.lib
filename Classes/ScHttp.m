@@ -61,7 +61,6 @@
         
         //クエリに変更がなければアクセスの必要なし
         NSString *query = [self buildParameters];
-        
         if(_prevQuery != nil)
         {
             if ([query isEqualAsQueryString:_prevQuery])
@@ -134,6 +133,11 @@
     return strParams;
 }
 
+- (id) paramForKey:(NSString *)key
+{
+    return [_params objectForKey:key];
+}
+
 
 
 - (void) setProgressBar: (UIProgressView *) progress
@@ -145,13 +149,15 @@
 {
     bool change = NO;
     id cParams = [params copy];
-    id currentValue = [_params objectForKey: key];
     
-    //NSLog(@"%@", currentValue);
+    id currentValue = [_params objectForKey: key];
     
     if(currentValue == nil)
     {
-        change = YES;
+        if(cParams != nil && ![cParams isEqual:@""])
+        {
+            change = YES;
+        }
     }
     else if([currentValue isKindOfClass:[NSArray class]])
     {
@@ -184,7 +190,15 @@
     
     if(change)
     {
-        [_params setObject:cParams forKey:key];
+        if(cParams != nil)
+        {
+            [_params setObject:cParams forKey:key];
+        }
+        else
+        {
+            [_params removeObjectForKey:key];
+        }
+        
         [self onChangeParameterFrom:currentValue to: cParams on: key];
     }
 }

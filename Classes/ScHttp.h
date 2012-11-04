@@ -46,6 +46,7 @@
 - (void) load;
 - (void) setProgressBar: (UIProgressView *) progress;
 - (void) setParam: (id)params forKey: (NSString *)key;
+- (id) paramForKey:(NSString *)key;
 - (void) removeParam:(NSString *)key;
 - (void) setHttpMethod: (NSString *) method;
 - (void) enableAutoLoad: (NSTimeInterval) sec;
