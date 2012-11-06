@@ -5,7 +5,7 @@
 //  Created by Masamoto Miyata on 2012/11/04.
 //  Copyright (c) 2012年 Masamoto Miyata. All rights reserved.
 //
-
+#import <Foundation/Foundation.h>
 #ifndef sincere_ios_lib_ScDebug_h
 #define sincere_ios_lib_ScDebug_h
 
@@ -16,3 +16,5 @@
 #endif
 
 #endif
+
+NSString* NSStringFromBOOL(BOOL value);
