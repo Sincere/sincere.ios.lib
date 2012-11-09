@@ -217,7 +217,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response
 {
-    NSLog(@"%@", [connection currentRequest]);
+    ScLog(@"%@", [connection currentRequest]);
     
     DDXMLElement *rootElem;
     if([response isKindOfClass:[NSData class]])

@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "NSURL+ScURLUtil.h"
 #import "NSString+ScStringUtil.h"
+#import "ScLog.h"
 
 @protocol ScHttpDelegate
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
 - (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 
@@ -40,6 +42,7 @@
     
 }
 
+@property (nonatomic, readonly) NSString *uri;
 @property (nonatomic, strong) id<ScHttpDelegate> delegate;
 - (id) initWithUri: (NSString *) uri;
 - (id) initWithUri: (NSString *) uri delegate: (id<ScHttpDelegate>) delegate;

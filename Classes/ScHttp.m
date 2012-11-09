@@ -108,8 +108,13 @@
 {
     NSMutableString *strParams = [NSMutableString string];
     
+    NSArray *keys = [[_params allKeys] sortedArrayUsingComparator:^(id obj1, id obj2){
+    
+        return [(NSString *)obj1 localizedCaseInsensitiveCompare:obj2];
+    }];
+    
     NSString *key;
-    for ( key in _params ) {
+    for ( key in keys ) {
         id value = [_params objectForKey:key];
         if([value isKindOfClass:[NSArray class]])
         {
@@ -268,6 +273,8 @@ didReceiveResponse:(NSURLResponse *)response
     }
     
     [_receivedData setLength:_loadedBytes];
+    
+    [self.delegate connection:connection didReceiveResponse:response];
 }
 
 - (void)connection:(NSURLConnection *)connection
