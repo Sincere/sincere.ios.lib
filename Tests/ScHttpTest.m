@@ -240,6 +240,11 @@
     [self notify:kGHUnitWaitStatusFailure];
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    
+}
+
 - (void)startAutoLoadWait
 {
     _autoLoadStatus = @"WAITING";

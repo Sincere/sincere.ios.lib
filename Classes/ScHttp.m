@@ -60,6 +60,7 @@
         }
         
         //クエリに変更がなければアクセスの必要なし
+        //クエリの並び替えは下のisEqualAsQueryStringでやってる・・微妙かも
         NSString *query = [self buildParameters];
         if(_prevQuery != nil)
         {
@@ -108,13 +109,8 @@
 {
     NSMutableString *strParams = [NSMutableString string];
     
-    NSArray *keys = [[_params allKeys] sortedArrayUsingComparator:^(id obj1, id obj2){
-    
-        return [(NSString *)obj1 localizedCaseInsensitiveCompare:obj2];
-    }];
-    
     NSString *key;
-    for ( key in keys ) {
+    for ( key in _params ) {
         id value = [_params objectForKey:key];
         if([value isKindOfClass:[NSArray class]])
         {
