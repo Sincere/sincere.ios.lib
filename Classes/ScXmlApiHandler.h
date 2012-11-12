@@ -27,7 +27,6 @@
 
 @interface ScXmlApiHandler : NSObject<ScHttpDelegate>
 {
-    NSString *_bodyTag;
     ScPagePath *_pagePath;
     NSURLConnection *_connection;
 }
@@ -36,8 +35,15 @@
 @property(nonatomic, readonly) ScPagePath *pagePath;
 @property(nonatomic, readonly) NSURLConnection *connection;
 
+-(NSError *)createErrorWithCode:(NSString*)code message:(NSString *)message;
 
-#pragma mark - abstract
--(void)handleXmlElement:(DDXMLElement *)body pagePath:(ScPagePath *)pagePath;
+
+#pragma mark - abstract and protected
+-(NSError *)hasErrorInXmlElement:(DDXMLElement *)rootElement;
+
+-(ScPagePath *)createPagePathWithXmlElement:(DDXMLElement *)rootElement;
+-(void)handleXmlElement:(DDXMLElement *)rootElement pagePath:(ScPagePath *)pagePath;
+
+
 
 @end

@@ -8,10 +8,6 @@
 
 #import "ScXmlApi.h"
 
-
-
-#pragma mark - FcApi
-
 @implementation ScXmlApi
 
 - (id)initWithUri:(NSString *)uri handlerName:(NSString *)handlerName
@@ -24,6 +20,7 @@
         _params = [[NSMutableDictionary alloc]init];
         _handlerName = handlerName;
         self.maxThreadCount = 1;
+        self.pageName = @"pid";
     }
     
     return self;
@@ -101,7 +98,7 @@
     
     if(pid)
     {
-        [request setParam:pid forKey:@"pid"];
+        [request setParam:pid forKey:self.pageName];
     }
     
     ScLog(@"Page request %@", request);

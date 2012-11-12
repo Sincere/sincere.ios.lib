@@ -8,9 +8,6 @@
 
 #import "ScXmlApiHandler.h"
 
-
-
-#pragma mark - FcApiHandler
 @implementation ScXmlApiHandler
 
 @synthesize pagePath = _pagePath;
@@ -28,29 +25,28 @@
     return self;
 }
 
+-(NSError *)createErrorWithCode:(NSString*)code message:(NSString *)message
+{
+    return [NSError errorWithDomain:@"ScXmlApiError" code:[code intValue] userInfo: @{NSLocalizedDescriptionKey: message}];
+}
+
 
 #pragma mark - ScHttpDelegate
 - (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response
 {
-    DDXMLElement *status = [[response elementsForName:@"status"] objectAtIndex:0];
-    NSString *responseCode = [[[status elementsForName:@"code"]objectAtIndex:0] stringValue];
-    
-    if(![responseCode isEqualToString:@"1"])
+    NSError *error = [self hasErrorInXmlElement:response];
+    if(error)
     {
-        [self didFailWithCode:responseCode message:[[[status elementsForName:@"message"]objectAtIndex:0] stringValue]];
+        //[self didFailWithCode:responseCode message:[[[status elementsForName:@"message"]objectAtIndex:0] stringValue]];
+        [self didFailWithCode:[NSString stringWithFormat:@"%d", error.code] message:[error localizedDescription]];
     }
     else
     {
-        DDXMLElement *body = [[response elementsForName:_bodyTag] objectAtIndex:0];
-        NSInteger max = [[[body attributeForName:@"max"]stringValue]intValue];
-        max = max == 0 ? 1 : max;
-        NSInteger next = [[[body attributeForName:@"next"]stringValue]intValue];
-        NSInteger current = next == 0 ? max : next - 1;
-        _pagePath = [[ScPagePath alloc]initWithIndex:current length:max];
+        _pagePath = [self createPagePathWithXmlElement:response];
         
         [self.delegate handler:self didLoadWithPagePath:_pagePath];
         
-        [self performSelectorInBackground:@selector(handleData:) withObject:@{@"body":body, @"pagePath":_pagePath}];
+        [self performSelectorInBackground:@selector(handleData:) withObject:@{@"document":response, @"pagePath":_pagePath}];
     }
 }
 
@@ -64,13 +60,23 @@
     _connection = connection;
 }
 
-#pragma mark - abstract
+#pragma mark - abstract - protected
 
--(void)handleXmlElement:(DDXMLElement *)body pagePath:(ScPagePath *)pagePath
+-(void)handleXmlElement:(DDXMLDocument *)rootElement pagePath:(DDXMLElement *)pagePath
 {
     NSAssert(NO, @"This is an abstract method and should be overridden");
 }
 
+-(ScPagePath *)createPagePathWithXmlElement:(DDXMLElement *)rootElement
+{
+    NSAssert(NO, @"This is an abstract method and should be overridden");
+    return nil;
+}
+
+-(NSError *)hasErrorInXmlElement:(DDXMLElement *)rootElement
+{
+    return nil;
+}
 
 #pragma mark - pivate
 - (void)didFailWithCode:(NSString *)code message:(NSString *)message;
@@ -78,10 +84,9 @@
     [self.delegate handler:self didFailWithCode:code message:message];
 }
 
-
 -(void)handleData:(NSDictionary *)data;
 {
-    [self handleXmlElement:[data objectForKey:@"body"] pagePath:[data objectForKey:@"pagePath"]];
+    [self handleXmlElement:[data objectForKey:@"document"] pagePath:[data objectForKey:@"pagePath"]];
     [self.delegate handlerDidFinish:self];
 }
 
