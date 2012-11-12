@@ -257,8 +257,7 @@
 }
 
 #pragma mark - NSURLConnectionDelegate
-- (void)connection:(NSURLConnection *)connection
-didReceiveResponse:(NSURLResponse *)response
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _totalBytes = [response expectedContentLength];
     _loadedBytes = 0.0;
@@ -273,8 +272,7 @@ didReceiveResponse:(NSURLResponse *)response
     [self.delegate connection:connection didReceiveResponse:response];
 }
 
-- (void)connection:(NSURLConnection *)connection
-    didReceiveData:(NSData *)data
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     if(_progressView)
     {
