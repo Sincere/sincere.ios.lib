@@ -42,7 +42,7 @@
 -(NSError *)hasErrorInXmlElement:(DDXMLElement *)rootElement;
 
 -(ScPagePath *)createPagePathWithXmlElement:(DDXMLElement *)rootElement;
--(void)handleXmlElement:(DDXMLElement *)rootElement pagePath:(ScPagePath *)pagePath;
+-(void)handleXmlElement:(DDXMLElement *)rootElement pagePath:(ScPagePath *)pagePath http:(ScHttp *)http;
 
 
 

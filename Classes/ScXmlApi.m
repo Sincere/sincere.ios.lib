@@ -10,6 +10,8 @@
 
 @implementation ScXmlApi
 
+@synthesize runningThread = _runningThread;
+
 - (id)initWithUri:(NSString *)uri handlerName:(NSString *)handlerName
 {
     self = [super init];
@@ -41,6 +43,8 @@
 
 - (void)handlerDidFinish:(ScXmlApiHandler *)handler
 {
+    ScLog(@"HandleEnd %d", handler.pagePath.index);
+    
     @synchronized(self)
     {
         ++_endCount;
@@ -52,10 +56,12 @@
         [self.delegate apiDidFinish:self];
     }
 }
+
 - (void)handler:(ScXmlApiHandler *)handler didFailWithCode:(NSString *)code message:(NSString *)message
 {
     [self.delegate api:self didFailWithCode:code message:message];
 }
+
 - (void)handler:(ScXmlApiHandler *)handler incrementProgress:(double)progress
 {
     @synchronized(self)
@@ -101,8 +107,9 @@
         [request setParam:pid forKey:self.pageName];
     }
     
-    ScLog(@"Page request %@", request);
+    //ScLog(@"Page request %@", request);
     
     [request load];
+    ScLog(@"LoadStart %@ Running:%d", pid, _runningThread);
 }
 @end

@@ -268,8 +268,7 @@
     }
     
     [_receivedData setLength:_loadedBytes];
-    
-    [self.delegate connection:connection didReceiveResponse:response];
+    [self.delegate http:self connection:connection didReceiveResponse:response];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -285,7 +284,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self.delegate connection:connection didFailWithError:error];
+    [self.delegate http:self connection:connection didFailWithError:error];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -295,7 +294,7 @@
         [_progressView setProgress:1.0];
     }
     
-    [self.delegate connection: connection didFinishLoading:_receivedData];
+    [self.delegate http:self connection: connection didFinishLoading:_receivedData];
 }
 
 @end

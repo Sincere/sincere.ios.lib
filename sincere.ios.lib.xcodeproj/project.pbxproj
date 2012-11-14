@@ -10,6 +10,11 @@
 		2C06DC8B1613E66D007CBC61 /* ScStringUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8A1613E66D007CBC61 /* ScStringUtilTest.m */; };
 		2C06DC8F1613FF4B007CBC61 /* ScArrayUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */; };
 		2C1B403E163CE01B0059D89F /* UIImage+ScResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B403B163CE01B0059D89F /* UIImage+ScResize.m */; };
+		2CEEE5EA165144310030B1BB /* ScXmlApiHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE5E0165144310030B1BB /* ScXmlApiHandler.m */; };
+		2CEEE5EB165144310030B1BB /* ScXmlApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE5E3165144310030B1BB /* ScXmlApi.m */; };
+		2CEEE5EC165144310030B1BB /* ScPagePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE5E4165144310030B1BB /* ScPagePath.m */; };
+		2CEEE5ED165144310030B1BB /* ScLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE5E7165144310030B1BB /* ScLog.m */; };
+		2CEEE5EE165144310030B1BB /* UIBarButtonItem+ScBarButtonUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE5E8165144310030B1BB /* UIBarButtonItem+ScBarButtonUtil.m */; };
 		2CF8A34D160DC550007062D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34C160DC550007062D5 /* UIKit.framework */; };
 		2CF8A34F160DC550007062D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A34E160DC550007062D5 /* Foundation.framework */; };
 		2CF8A351160DC550007062D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF8A350160DC550007062D5 /* CoreGraphics.framework */; };
@@ -60,7 +65,16 @@
 		2C06DC8E1613FF4B007CBC61 /* ScArrayUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScArrayUtil.m; sourceTree = "<group>"; };
 		2C1B403B163CE01B0059D89F /* UIImage+ScResize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ScResize.m"; sourceTree = "<group>"; };
 		2C1B403C163CE01B0059D89F /* UIImage+ScResize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ScResize.h"; sourceTree = "<group>"; };
-		2CB5A83916460D9800C48341 /* ScDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScDebug.h; sourceTree = "<group>"; };
+		2CEEE5E0165144310030B1BB /* ScXmlApiHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScXmlApiHandler.m; sourceTree = "<group>"; };
+		2CEEE5E1165144310030B1BB /* ScXmlApiHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScXmlApiHandler.h; sourceTree = "<group>"; };
+		2CEEE5E2165144310030B1BB /* ScXmlApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScXmlApi.h; sourceTree = "<group>"; };
+		2CEEE5E3165144310030B1BB /* ScXmlApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScXmlApi.m; sourceTree = "<group>"; };
+		2CEEE5E4165144310030B1BB /* ScPagePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScPagePath.m; sourceTree = "<group>"; };
+		2CEEE5E5165144310030B1BB /* ScPagePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScPagePath.h; sourceTree = "<group>"; };
+		2CEEE5E6165144310030B1BB /* ScLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScLog.h; sourceTree = "<group>"; };
+		2CEEE5E7165144310030B1BB /* ScLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScLog.m; sourceTree = "<group>"; };
+		2CEEE5E8165144310030B1BB /* UIBarButtonItem+ScBarButtonUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+ScBarButtonUtil.m"; sourceTree = "<group>"; };
+		2CEEE5E9165144310030B1BB /* UIBarButtonItem+ScBarButtonUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+ScBarButtonUtil.h"; sourceTree = "<group>"; };
 		2CF8A348160DC550007062D5 /* sincere.ios.lib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sincere.ios.lib.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF8A34C160DC550007062D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2CF8A34E160DC550007062D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -266,6 +280,16 @@
 		2CF8B10F160F37C1007062D5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2CEEE5E0165144310030B1BB /* ScXmlApiHandler.m */,
+				2CEEE5E1165144310030B1BB /* ScXmlApiHandler.h */,
+				2CEEE5E2165144310030B1BB /* ScXmlApi.h */,
+				2CEEE5E3165144310030B1BB /* ScXmlApi.m */,
+				2CEEE5E4165144310030B1BB /* ScPagePath.m */,
+				2CEEE5E5165144310030B1BB /* ScPagePath.h */,
+				2CEEE5E6165144310030B1BB /* ScLog.h */,
+				2CEEE5E7165144310030B1BB /* ScLog.m */,
+				2CEEE5E8165144310030B1BB /* UIBarButtonItem+ScBarButtonUtil.m */,
+				2CEEE5E9165144310030B1BB /* UIBarButtonItem+ScBarButtonUtil.h */,
 				2C1B403C163CE01B0059D89F /* UIImage+ScResize.h */,
 				2C1B403B163CE01B0059D89F /* UIImage+ScResize.m */,
 				2CF8B14016114D09007062D5 /* NSString+ScStringUtil.h */,
@@ -280,7 +304,6 @@
 				2CF8B117160F37C1007062D5 /* ScPasswordTextFieldView.m */,
 				2CF8B118160F37C1007062D5 /* ScTreeHolder.h */,
 				2CF8B119160F37C1007062D5 /* ScTreeHolder.m */,
-				2CB5A83916460D9800C48341 /* ScDebug.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -394,6 +417,11 @@
 				2CF8B122160F37C1007062D5 /* ScTreeHolder.m in Sources */,
 				2CF8B14216114D09007062D5 /* NSString+ScStringUtil.m in Sources */,
 				2C1B403E163CE01B0059D89F /* UIImage+ScResize.m in Sources */,
+				2CEEE5EA165144310030B1BB /* ScXmlApiHandler.m in Sources */,
+				2CEEE5EB165144310030B1BB /* ScXmlApi.m in Sources */,
+				2CEEE5EC165144310030B1BB /* ScPagePath.m in Sources */,
+				2CEEE5ED165144310030B1BB /* ScLog.m in Sources */,
+				2CEEE5EE165144310030B1BB /* UIBarButtonItem+ScBarButtonUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

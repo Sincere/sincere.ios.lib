@@ -215,7 +215,7 @@
 
 #pragma mark - ScHttpDelegate
 
-- (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFinishLoading:(id)response
 {
     ScLog(@"%@", [connection currentRequest]);
     
@@ -235,12 +235,12 @@
     [self performSelector:_assertFunc withObject:rootElem afterDelay:0.0];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     [self notify:kGHUnitWaitStatusFailure];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     
 }

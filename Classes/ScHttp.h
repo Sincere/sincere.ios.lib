@@ -11,11 +11,12 @@
 #import "NSString+ScStringUtil.h"
 #import "ScLog.h"
 
+@class ScHttp;
 @protocol ScHttpDelegate
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
-- (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response;
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFinishLoading:(id)response;
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 
 @optional
 - (void)startAutoLoadWait;

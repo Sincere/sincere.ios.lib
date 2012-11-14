@@ -21,7 +21,7 @@
     
     NSString *xmlString = [[NSString alloc]initWithData:_receivedData encoding:NSUTF8StringEncoding];
     DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:xmlString options:0 error:nil];
-    [self.delegate connection:connection didFinishLoading:[doc rootElement]];
+    [self.delegate http:self connection:connection didFinishLoading:[doc rootElement]];
 }
 
 @end

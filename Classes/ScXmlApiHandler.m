@@ -13,31 +13,17 @@
 @synthesize pagePath = _pagePath;
 @synthesize connection = _connection;
 
-- (id)init
-{
-    self = [super init];
-    
-    if (self)
-    {
-        
-    }
-    
-    return self;
-}
-
 -(NSError *)createErrorWithCode:(NSString*)code message:(NSString *)message
 {
     return [NSError errorWithDomain:@"ScXmlApiError" code:[code intValue] userInfo: @{NSLocalizedDescriptionKey: message}];
 }
 
-
 #pragma mark - ScHttpDelegate
-- (void)connection:(NSURLConnection *)connection didFinishLoading:(id)response
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFinishLoading:(id)response
 {
     NSError *error = [self hasErrorInXmlElement:response];
     if(error)
     {
-        //[self didFailWithCode:responseCode message:[[[status elementsForName:@"message"]objectAtIndex:0] stringValue]];
         [self didFailWithCode:[NSString stringWithFormat:@"%d", error.code] message:[error localizedDescription]];
     }
     else
@@ -45,24 +31,23 @@
         _pagePath = [self createPagePathWithXmlElement:response];
         
         [self.delegate handler:self didLoadWithPagePath:_pagePath];
-        
-        [self performSelectorInBackground:@selector(handleData:) withObject:@{@"document":response, @"pagePath":_pagePath}];
+        [self performSelectorInBackground:@selector(handleData:) withObject:@{@"document":response, @"pagePath":_pagePath, @"http":http}];
     }
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     [self didFailWithCode:@"9999" message:[NSString stringWithFormat:@"%d : %@", [error code], [error localizedDescription]]];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _connection = connection;
 }
 
 #pragma mark - abstract - protected
 
--(void)handleXmlElement:(DDXMLDocument *)rootElement pagePath:(DDXMLElement *)pagePath
+-(void)handleXmlElement:(DDXMLDocument *)rootElement pagePath:(DDXMLElement *)pagePath http:(ScHttp *)http 
 {
     NSAssert(NO, @"This is an abstract method and should be overridden");
 }
@@ -86,7 +71,7 @@
 
 -(void)handleData:(NSDictionary *)data;
 {
-    [self handleXmlElement:[data objectForKey:@"document"] pagePath:[data objectForKey:@"pagePath"]];
+    [self handleXmlElement:[data objectForKey:@"document"] pagePath:[data objectForKey:@"pagePath"] http:[data objectForKey:@"http"]];
     [self.delegate handlerDidFinish:self];
 }
 

@@ -36,6 +36,7 @@
 @property (nonatomic, strong) id<ScXmlApiDelegate>delegate;
 @property (nonatomic, assign) NSInteger maxThreadCount;
 @property (nonatomic, strong) NSString *pageName;
+@property (nonatomic, readonly) NSInteger runningThread;
 
 - (id)initWithUri:(NSString *)uri handlerName:(NSString *)handlerName;
 - (void)setParam:(id)params forKey: (NSString *)key;
