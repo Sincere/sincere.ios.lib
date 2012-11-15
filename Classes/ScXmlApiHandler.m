@@ -21,14 +21,14 @@
 #pragma mark - ScHttpDelegate
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFinishLoading:(id)response
 {
-    NSError *error = [self hasErrorInXmlElement:response];
+    NSError *error = [self errorInXmlElement:response http:http];
     if(error)
     {
         [self didFailWithCode:[NSString stringWithFormat:@"%d", error.code] message:[error localizedDescription]];
     }
     else
     {
-        _pagePath = [self createPagePathWithXmlElement:response];
+        _pagePath = [self createPagePathWithXmlElement:response http:http];
         
         [self.delegate handler:self didLoadWithPagePath:_pagePath];
         [self performSelectorInBackground:@selector(handleData:) withObject:@{@"document":response, @"pagePath":_pagePath, @"http":http}];
@@ -52,13 +52,13 @@
     NSAssert(NO, @"This is an abstract method and should be overridden");
 }
 
--(ScPagePath *)createPagePathWithXmlElement:(DDXMLElement *)rootElement
+-(ScPagePath *)createPagePathWithXmlElement:(DDXMLElement *)rootElement http:(ScHttp *)http
 {
     NSAssert(NO, @"This is an abstract method and should be overridden");
     return nil;
 }
 
--(NSError *)hasErrorInXmlElement:(DDXMLElement *)rootElement
+-(NSError *)errorInXmlElement:(DDXMLElement *)rootElement http:(ScHttp *)http
 {
     return nil;
 }

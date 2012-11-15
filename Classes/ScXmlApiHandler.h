@@ -39,9 +39,8 @@
 
 
 #pragma mark - abstract and protected
--(NSError *)hasErrorInXmlElement:(DDXMLElement *)rootElement;
-
--(ScPagePath *)createPagePathWithXmlElement:(DDXMLElement *)rootElement;
+-(NSError *)errorInXmlElement:(DDXMLElement *)rootElement http:(ScHttp *)http;
+-(ScPagePath *)createPagePathWithXmlElement:(DDXMLElement *)rootElement http:(ScHttp *)http;
 -(void)handleXmlElement:(DDXMLElement *)rootElement pagePath:(ScPagePath *)pagePath http:(ScHttp *)http;
 
 
