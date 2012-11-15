@@ -71,6 +71,7 @@
 
 -(void)handleData:(NSDictionary *)data;
 {
+    [self.delegate handlerWillStart:self];
     [self handleXmlElement:[data objectForKey:@"document"] pagePath:[data objectForKey:@"pagePath"] http:[data objectForKey:@"http"]];
     [self.delegate handlerDidFinish:self];
 }

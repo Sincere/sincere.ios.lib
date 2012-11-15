@@ -41,6 +41,8 @@
     [_params setObject:params forKey:key];
 }
 
+#pragma mark - ScXmlApiHandlerDelegate
+
 - (void)handlerDidFinish:(ScXmlApiHandler *)handler
 {
     ScLog(@"HandleEnd %d", handler.pagePath.index);
@@ -77,7 +79,7 @@
     ScLog(@"Page loaded[%@]", [handler.connection currentRequest]);
     if([pagePath hasMore])
     {
-        while (_runningThread > self.maxThreadCount)
+        while (_runningThread >= self.maxThreadCount)
         {
             [NSThread sleepForTimeInterval:0.1];
         }
@@ -86,14 +88,17 @@
     }
 }
 
-#pragma mark - private
-- (void)loadStart:(NSString *)pid
+- (void)handlerWillStart:(ScXmlApiHandler *)handler
 {
     @synchronized(self)
     {
         ++_runningThread;
     }
-    
+}
+
+#pragma mark - private
+- (void)loadStart:(NSString *)pid
+{
     ScXmlApiHandler *handler = [[NSClassFromString(_handlerName) alloc] init];
     handler.delegate = self;
     ScHttpXml *request = [[ScHttpXml alloc]initWithUri:_uri delegate:handler];

@@ -20,6 +20,7 @@
 - (void)handlerDidFinish:(ScXmlApiHandler *)handler;
 - (void)handler:(ScXmlApiHandler *)handler didFailWithCode:(NSString *)code message:(NSString *)message;
 - (void)handler:(ScXmlApiHandler *)handler incrementProgress:(double)progress;
+- (void)handlerWillStart:(ScXmlApiHandler *)handler;
 
 @end
 
