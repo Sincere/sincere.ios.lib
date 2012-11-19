@@ -16,8 +16,8 @@
 @class ScXmlApiHandler;
 @protocol ScXmlApiHandlerDelegate
 
-- (void)handler:(ScXmlApiHandler *)handler didLoadWithPagePath:(ScPagePath *)pagePath;
-- (void)handlerDidFinish:(ScXmlApiHandler *)handler;
+- (void)http:(ScHttp *)http handler:(ScXmlApiHandler *)handler didLoadWithPagePath:(ScPagePath *)pagePath;
+- (void)http:(ScHttp *)http handlerDidFinish:(ScXmlApiHandler *)handler;
 - (void)handler:(ScXmlApiHandler *)handler didFailWithCode:(NSString *)code message:(NSString *)message;
 - (void)handler:(ScXmlApiHandler *)handler incrementProgress:(double)progress;
 - (void)handlerWillStart:(ScXmlApiHandler *)handler;
@@ -28,13 +28,13 @@
 
 @interface ScXmlApiHandler : NSObject<ScHttpDelegate>
 {
-    ScPagePath *_pagePath;
-    NSURLConnection *_connection;
+//    ScPagePath *_pagePath;
+//    NSURLConnection *_connection;
 }
 
 @property(nonatomic, strong) id<ScXmlApiHandlerDelegate>delegate;
-@property(nonatomic, readonly) ScPagePath *pagePath;
-@property(nonatomic, readonly) NSURLConnection *connection;
+//@property(nonatomic, readonly) ScPagePath *pagePath;
+//@property(nonatomic, readonly) NSURLConnection *connection;
 
 -(NSError *)createErrorWithCode:(NSString*)code message:(NSString *)message;
 

@@ -31,8 +31,8 @@
 - (void)start
 {
     _progress = 0;
-    _endCount = 0;
     _runningThread = 0;
+    _restPageCount = 0;
     [self loadStart:nil];
 }
 
@@ -43,17 +43,14 @@
 
 #pragma mark - ScXmlApiHandlerDelegate
 
-- (void)handlerDidFinish:(ScXmlApiHandler *)handler
+- (void)http:(ScHttp *)http handlerDidFinish:(ScXmlApiHandler *)handler
 {
-    ScLog(@"HandleEnd %d", handler.pagePath.index);
-    
     @synchronized(self)
     {
         ++_endCount;
-        --_runningThread;
     }
     
-    if(_endCount == handler.pagePath.length)
+    if(_endCount == _maxPageCount)
     {
         [self.delegate apiDidFinish:self];
     }
@@ -74,17 +71,40 @@
     [self.delegate api:self progress:_progress];
 }
 
-- (void)handler:(ScXmlApiHandler *)handler didLoadWithPagePath:(ScPagePath *)pagePath
+- (void)http:(ScHttp *)http handler:(ScXmlApiHandler *)handler didLoadWithPagePath:(ScPagePath *)pagePath
 {
-    ScLog(@"Page loaded[%@]", [handler.connection currentRequest]);
-    if([pagePath hasMore])
+    if(pagePath.index == 1)
     {
-        while (_runningThread >= self.maxThreadCount)
-        {
-            [NSThread sleepForTimeInterval:0.1];
-        }
+        _restPageCount = pagePath.length - 1;
+        _maxPageCount = pagePath.length;
         
-        [self loadStart:[NSString stringWithFormat:@"%d", pagePath.index + 1]];
+        if([pagePath hasMore])
+        {
+            
+            
+            for (int i=0; i<self.maxThreadCount; i++)
+            {
+                ScHttpXml *request = [[ScHttpXml alloc]initWithUri:_uri delegate:handler];
+                for (NSString *key in _params)
+                {
+                    [request setParam:[_params objectForKey:key] forKey:key];
+                }
+                
+                [request setParam:[self popPageId] forKey: self.pageName];
+                [request load];
+            }
+        }
+    }
+    else
+    {
+        _maxPageCount = pagePath.length;
+        NSString *pid = [self popPageId];
+        
+        if(pid != nil)
+        {
+            [http setParam:pid forKey: self.pageName];
+            [http load];
+        }
     }
 }
 
@@ -97,6 +117,24 @@
 }
 
 #pragma mark - private
+- (NSString *)popPageId
+{
+    @synchronized(self)
+    {
+        if(_restPageCount == 0)
+        {
+            return nil;
+        }
+        else
+        {
+            NSString *pid = [NSString stringWithFormat:@"%d", (_maxPageCount - _restPageCount) + 1];
+            --_restPageCount;
+            
+            return pid;
+        }
+    }
+}
+
 - (void)loadStart:(NSString *)pid
 {
     ScXmlApiHandler *handler = [[NSClassFromString(_handlerName) alloc] init];
@@ -111,8 +149,6 @@
     {
         [request setParam:pid forKey:self.pageName];
     }
-    
-    //ScLog(@"Page request %@", request);
     
     [request load];
     ScLog(@"LoadStart %@ Running:%d", pid, _runningThread);

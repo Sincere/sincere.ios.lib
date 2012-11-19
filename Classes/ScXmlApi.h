@@ -31,6 +31,8 @@
     double _progress;
     NSInteger _endCount;
     NSInteger _runningThread;
+    NSInteger _restPageCount;
+    NSInteger _maxPageCount;
 }
 
 @property (nonatomic, strong) id<ScXmlApiDelegate>delegate;

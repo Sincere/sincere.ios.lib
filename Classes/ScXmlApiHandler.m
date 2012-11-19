@@ -10,9 +10,6 @@
 
 @implementation ScXmlApiHandler
 
-@synthesize pagePath = _pagePath;
-@synthesize connection = _connection;
-
 -(NSError *)createErrorWithCode:(NSString*)code message:(NSString *)message
 {
     return [NSError errorWithDomain:@"ScXmlApiError" code:[code intValue] userInfo: @{NSLocalizedDescriptionKey: message}];
@@ -28,10 +25,18 @@
     }
     else
     {
-        _pagePath = [self createPagePathWithXmlElement:response http:http];
+        ScPagePath *pagePath = [self createPagePathWithXmlElement:response http:http];
         
-        [self.delegate handler:self didLoadWithPagePath:_pagePath];
-        [self performSelectorInBackground:@selector(handleData:) withObject:@{@"document":response, @"pagePath":_pagePath, @"http":http}];
+        [self.delegate http:http handler:self didLoadWithPagePath:pagePath];
+        
+        [self.delegate handlerWillStart:self];
+        
+        @synchronized(self)
+        {
+            [self handleXmlElement:response pagePath:pagePath http:http];
+        }
+        
+        [self.delegate http:http handlerDidFinish:self];
     }
 }
 
@@ -42,7 +47,7 @@
 
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    _connection = connection;
+    
 }
 
 #pragma mark - abstract - protected
@@ -68,15 +73,4 @@
 {
     [self.delegate handler:self didFailWithCode:code message:message];
 }
-
--(void)handleData:(NSDictionary *)data;
-{
-    [self.delegate handlerWillStart:self];
-    [self handleXmlElement:[data objectForKey:@"document"] pagePath:[data objectForKey:@"pagePath"] http:[data objectForKey:@"http"]];
-    [self.delegate handlerDidFinish:self];
-}
-
-
-
-
 @end
