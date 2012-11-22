@@ -138,6 +138,12 @@
 - (void)loadStart:(NSString *)pid
 {
     ScXmlApiHandler *handler = [[NSClassFromString(_handlerName) alloc] init];
+    if(!handler)
+    {
+        NSException *exception = [NSException exceptionWithName: @"ScXmlApiException" reason: [NSString stringWithFormat:@"Missing %@ class", _handlerName] userInfo: nil];
+        @throw exception;
+    }
+    
     handler.delegate = self;
     ScHttpXml *request = [[ScHttpXml alloc]initWithUri:_uri delegate:handler];
     for (NSString *key in _params)
