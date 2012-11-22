@@ -17,6 +17,7 @@
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFinishLoading:(id)response;
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection progress:(double)progress;
 
 @optional
 - (void)startAutoLoadWait;

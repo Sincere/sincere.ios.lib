@@ -50,6 +50,11 @@
     
 }
 
+- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection progress:(double)progress
+{
+    
+}
+
 #pragma mark - abstract - protected
 
 -(void)handleXmlElement:(DDXMLDocument *)rootElement pagePath:(DDXMLElement *)pagePath http:(ScHttp *)http 

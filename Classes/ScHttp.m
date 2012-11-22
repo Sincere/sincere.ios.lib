@@ -273,11 +273,15 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    _loadedBytes += [data length];
+    double progress = _loadedBytes/_totalBytes;
+    
     if(_progressView)
     {
-        _loadedBytes += [data length];
-        [_progressView setProgress:(_loadedBytes/_totalBytes)];
+        [_progressView setProgress:(progress)];
     }
+    
+    [self.delegate http:self connection:connection progress:progress];
     
     [_receivedData appendData:data];
 }
