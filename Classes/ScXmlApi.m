@@ -91,7 +91,7 @@
                 }
                 
                 [request setParam:[self popPageId] forKey: self.pageName];
-                [request load];
+                [self loadHttp:request];
             }
         }
     }
@@ -103,20 +103,31 @@
         if(pid != nil)
         {
             [http setParam:pid forKey: self.pageName];
-            [http load];
+            [self loadHttp:http];
         }
+    }
+    
+    @synchronized(self)
+    {
+        --_runningThread;
     }
 }
 
 - (void)handlerWillStart:(ScXmlApiHandler *)handler
 {
+    
+}
+
+#pragma mark - private
+- (void)loadHttp:(ScHttp *)http
+{
+    [http load];
     @synchronized(self)
     {
         ++_runningThread;
     }
 }
 
-#pragma mark - private
 - (NSString *)popPageId
 {
     @synchronized(self)
@@ -156,7 +167,8 @@
         [request setParam:pid forKey:self.pageName];
     }
     
-    [request load];
+    [self loadHttp:request];
+    
     ScLog(@"LoadStart %@ Running:%d", pid, _runningThread);
 }
 @end
