@@ -259,6 +259,7 @@
 #pragma mark - NSURLConnectionDelegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    ScLog(@"Start load %@", [connection currentRequest]);
     _totalBytes = [response expectedContentLength];
     _loadedBytes = 0.0;
     

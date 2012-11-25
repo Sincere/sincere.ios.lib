@@ -168,7 +168,5 @@
     }
     
     [self loadHttp:request];
-    
-    ScLog(@"LoadStart %@ Running:%d", pid, _runningThread);
 }
 @end
