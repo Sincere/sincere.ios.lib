@@ -23,6 +23,7 @@
 - (void)close;
 
 - (NSString*)stringForColumn:(NSString*)columnName;
+- (int)intForColumn:(NSString*)columnName;
 - (NSDictionary*)resultDictionary;
 
 - (NSMutableArray*)arrayOfStringForColumn:(NSString*)columnName;

@@ -37,6 +37,11 @@
     [_resultSet close];
 }
 
+- (int)intForColumn:(NSString*)columnName
+{
+    return [_resultSet intForColumn:columnName];
+}
+
 - (NSString*)stringForColumn:(NSString*)columnName
 {
     return [_resultSet stringForColumn:columnName];
