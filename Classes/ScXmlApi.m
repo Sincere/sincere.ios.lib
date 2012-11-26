@@ -157,6 +157,7 @@
     
     handler.delegate = self;
     ScHttpXml *request = [[ScHttpXml alloc]initWithUri:_uri delegate:handler];
+    [request setHttpMethod:@"POST"];
     for (NSString *key in _params)
     {
         [request setParam:[_params objectForKey:key] forKey:key];
