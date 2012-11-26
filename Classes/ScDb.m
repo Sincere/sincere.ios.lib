@@ -67,6 +67,8 @@
     {
         [ScDb throwException:[NSString stringWithFormat:@"Fail to drop database %@", _databasePath]];
     }
+    
+    ScLog(@"Drop database %@", _databasePath);
 }
 
 - (void)executeUpdate:(NSString*)sql withArgumentsInArray:(NSArray *)arguments
