@@ -10,6 +10,7 @@
 #import "FMDatabase.h"
 #import "ScLog.h"
 #import "ScDbResultSet.h"
+#import "NSData+ScDataShortDescription.h"
 
 @class ScDbResultSet;
 @interface ScDb : NSObject
@@ -25,6 +26,8 @@
 - (id)initWithPath:(NSString *)path fromTemplatePath:(NSString *)templatePath;
 - (void)close;
 - (void)drop;
+
+- (BOOL)exists:(NSString*)sql withArgumentsInArray:(NSArray *)arguments;
 
 - (void)executeQuery:(NSString*)sql resultSet:(ScDbResultSet *)resultSet;
 - (void)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray *)arguments resultSet:(ScDbResultSet *)resultSet;

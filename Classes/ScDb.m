@@ -71,8 +71,22 @@
     ScLog(@"Drop database %@", _databasePath);
 }
 
+- (BOOL)exists:(NSString*)sql withArgumentsInArray:(NSArray *)arguments
+{
+    ScLog(@"%@ %@", sql, arguments);
+    ScDbResultSet *rs = [[ScDbResultSet alloc]init];
+    [self executeQuery:sql withArgumentsInArray:arguments resultSet:rs];
+    
+    BOOL exists = [rs next];
+    
+    [rs close];
+    
+    return exists;
+}
+
 - (void)executeUpdate:(NSString*)sql withArgumentsInArray:(NSArray *)arguments
 {
+    ScLog(@"%@ %@", sql, arguments);
     if(![_db executeUpdate:sql withArgumentsInArray:arguments])
     {
         [self throwLastErrorException];
@@ -81,11 +95,13 @@
 
 - (void)executeQuery:(NSString*)sql resultSet:(ScDbResultSet *)resultSet
 {
+    ScLog(@"%@", sql);
     [resultSet setResultSet:[_db executeQuery:sql]];
 }
 
 - (void)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray *)arguments resultSet:(ScDbResultSet *)resultSet
 {
+    ScLog(@"%@ %@", sql, arguments);
     [resultSet setResultSet:[_db executeQuery:sql withArgumentsInArray:arguments]];
 }
 
