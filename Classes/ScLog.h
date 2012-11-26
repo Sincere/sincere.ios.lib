@@ -12,9 +12,9 @@
 #ifdef DEBUG
 #define ScLog(s, ...) NSLog(@"<%p %@:(%d)> %@", self, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__])
 #else
-#define DLog(s, ...)
+#define ScLog(s, ...)
 #endif
 
 #endif
 
-NSString* NSStringFromBOOL(BOOL value);
+NSString* ScStringFromBOOL(BOOL value);

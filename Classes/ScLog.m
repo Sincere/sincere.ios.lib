@@ -8,7 +8,7 @@
 
 #import "ScLog.h"
 
-NSString* NSStringFromBOOL(BOOL value)
+NSString* ScStringFromBOOL(BOOL value)
 {
     return value ? @"YES" : @"NO";
 }
