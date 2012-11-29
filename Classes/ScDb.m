@@ -16,10 +16,9 @@
 	if (self != nil)
     {
         NSFileManager *fm = [NSFileManager defaultManager];
-        NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES) objectAtIndex:0];
         
-        _databasePath = [docDir stringByAppendingPathComponent:path];
-        _templatePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:templatePath];
+        _databasePath = path;
+        _templatePath = templatePath;
         
         //dbが存在してなかったらここが呼ばれて、作成したDBをコピー
         if(![fm fileExistsAtPath:_databasePath])
