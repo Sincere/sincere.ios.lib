@@ -21,7 +21,6 @@
     FMDatabase *_db;
 }
 
-+ (void)throwException:(NSString *)message;
 
 - (id)initWithPath:(NSString *)path fromTemplatePath:(NSString *)templatePath;
 - (void)close;

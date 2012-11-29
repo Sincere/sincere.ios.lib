@@ -23,14 +23,16 @@
 
 + (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
 {
-    NSAssert1([[NSFileManager defaultManager] fileExistsAtPath: [URL path]], @"%@ is not exists.", URL);
+    
+    BOOL __unused res = [[NSFileManager defaultManager] fileExistsAtPath: [URL path]];
+    NSAssert1(res, @"%@ is not exists.", URL);
     
     NSError *error = nil;
     BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
                                   forKey: NSURLIsExcludedFromBackupKey error: &error];
-    if(!success){
-        NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
-    }
+    
+    NSAssert2(success, @"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+    
     return success;
 }
 

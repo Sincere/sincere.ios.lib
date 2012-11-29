@@ -23,10 +23,7 @@
 
 - (BOOL)next
 {
-    if(_closed)
-    {
-        [ScDb throwException:@"This set is already closed."];
-    }
+    NSAssert(!_closed, @"This set is already closed.");
     
     return [_resultSet next];
 }
