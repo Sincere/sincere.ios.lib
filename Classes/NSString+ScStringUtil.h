@@ -11,4 +11,5 @@
 @interface NSString (ScStringUtil)
 - (NSString*)stringUrlEncoded;
 - (BOOL)isEqualAsQueryString:(NSString *)queryString;
+- (NSArray *)componentsSeparatedByLength:(NSInteger)length;
 @end

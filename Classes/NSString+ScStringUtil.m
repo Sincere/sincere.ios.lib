@@ -43,5 +43,21 @@
     
     return YES;
 }
+
+- (NSArray *)componentsSeparatedByLength:(NSInteger)length
+{
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    int len=0;
+    
+    while( (len + length)<[self length])
+    {
+        [array addObject:[self substringWithRange:NSMakeRange(len, length)]];
+        len += (length);
+    }
+    
+    [array addObject:[self substringFromIndex:len]];
+    
+    return array;
+}
     
 @end
