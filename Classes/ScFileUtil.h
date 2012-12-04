@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ScLog.h"
+#import "ScSystemVersion.h"
+#include <sys/xattr.h>
 
 @interface ScFileUtil : NSObject
 
