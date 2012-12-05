@@ -39,17 +39,37 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[[_sections objectAtIndex:section] objectForKey:@"rows"] count];
+    NSDictionary *sectionData = [_sections objectAtIndex:section];
+    NSArray *rows = [sectionData objectForKey:@"rows"];
+    if(rows)
+    {
+        return [rows count];
+    }
+    else
+    {
+        NSString *selector = [NSString stringWithFormat:@"numberOfRowsIn%@Section", [sectionData objectForKey:@"name"]];
+        NSNumber *count = (NSNumber *)[self performSelector:NSSelectorFromString(selector)];
+        return [count integerValue];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *section = [_sections objectAtIndex:indexPath.section];
     NSDictionary *row = [[section objectForKey:@"rows"] objectAtIndex:indexPath.row];
-    NSString *key = [[section objectForKey:@"name"] stringByAppendingString:[row objectForKey:@"name"]];
     
-    NSString *selector = [NSString stringWithFormat:@"create%@Cell:", key];
-    return (UITableViewCell *)[self performSelector:NSSelectorFromString(selector) withObject:@{@"tableView": tableView, @"section":section, @"row":row}];
+    if(row != nil)
+    {
+        NSString *key = [[section objectForKey:@"name"] stringByAppendingString:[row objectForKey:@"name"]];
+        NSString *selector = [NSString stringWithFormat:@"create%@Cell:", key];
+        return (UITableViewCell *)[self performSelector:NSSelectorFromString(selector) withObject:@{@"tableView": tableView, @"section":section, @"row":row, @"indexPath":indexPath}];
+    }
+    else
+    {
+        NSString *key = [section objectForKey:@"name"];
+        NSString *selector = [NSString stringWithFormat:@"create%@SectionCell:", key];
+        return (UITableViewCell *)[self performSelector:NSSelectorFromString(selector) withObject:@{@"tableView": tableView, @"section":section, @"indexPath":indexPath}];
+    }
 }
 
 /*
