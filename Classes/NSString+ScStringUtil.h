@@ -12,4 +12,5 @@
 - (NSString*)stringUrlEncoded;
 - (BOOL)isEqualAsQueryString:(NSString *)queryString;
 - (NSArray *)componentsSeparatedByLength:(NSInteger)length;
+- (NSString *)ucfirst;
 @end

@@ -59,5 +59,10 @@
     
     return array;
 }
+
+- (NSString *)ucfirst
+{
+    return [self stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self  substringToIndex:1] capitalizedString]];
+}
     
 @end
