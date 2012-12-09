@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ScLog.h"
 
-@interface ScAnimatedSwapView : UIScrollView<UIScrollViewDelegate>
+@interface ScAnimatedSwapView : UIScrollView
 {
     @private
     UIView *_currentView;
@@ -18,6 +18,8 @@
     CGRect _stageFrame;
     CGRect _nextFrame;
 }
+
+@property (nonatomic) CGFloat animationDuration;
 
 - (void)setNextView:(UIView *)view;
 

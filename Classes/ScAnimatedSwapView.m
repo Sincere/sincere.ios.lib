@@ -31,27 +31,6 @@
     [self toNextLabel];
 }
 
-#pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    @synchronized(self)
-    {
-        if(_currentView != nil)
-        {
-            [_currentView removeFromSuperview];
-        }
-        
-        _currentView = _addingView;
-        _addingView = nil;
-        
-        _currentView.frame = _stageFrame;
-        [self scrollRectToVisible:_stageFrame animated:NO];
-        
-        [self toNextLabel];
-    }
-    
-}
-
 #pragma mark - private
 - (void)toNextLabel
 {
@@ -67,7 +46,25 @@
                 [self addSubview:_addingView];
                 _addingView.frame = _nextFrame;
                 
-                [self scrollRectToVisible:_nextFrame animated:YES];
+                [UIView animateWithDuration:self.animationDuration animations:^{
+                   [self scrollRectToVisible:_nextFrame animated:NO];
+                }completion:^(BOOL finished){
+                    @synchronized(self)
+                    {
+                        if(_currentView != nil)
+                        {
+                            [_currentView removeFromSuperview];
+                        }
+                        
+                        _currentView = _addingView;
+                        _addingView = nil;
+                        
+                        _currentView.frame = _stageFrame;
+                        [self scrollRectToVisible:_stageFrame animated:NO];
+                        
+                        [self toNextLabel];
+                    }
+                }];
             }
         }
     }
@@ -76,8 +73,9 @@
 - (void)setup
 {
     _views = [[NSMutableArray alloc]init];
-    self.delegate = self;
     
+    self.animationDuration = 0.1;
+    self.userInteractionEnabled = NO;
     self.backgroundColor = [UIColor clearColor];
     self.pagingEnabled = YES;
     self.scrollEnabled = NO;
