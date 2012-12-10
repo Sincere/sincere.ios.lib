@@ -11,6 +11,7 @@
 #import "ScLog.h"
 #import "ScDbResultSet.h"
 #import "NSData+ScDataShortDescription.h"
+#import "ScDbQuery.h"
 
 @class ScDbResultSet;
 @interface ScDb : NSObject
@@ -26,12 +27,14 @@
 - (void)close;
 - (void)drop;
 
-- (BOOL)exists:(NSString*)sql withArgumentsInArray:(NSArray *)arguments;
+- (NSString *)fetchOne:(ScDbQuery *)query;
 
-- (void)executeQuery:(NSString*)sql resultSet:(ScDbResultSet *)resultSet;
-- (void)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray *)arguments resultSet:(ScDbResultSet *)resultSet;
+- (BOOL)exists:(ScDbQuery*)sql;
 
-- (void)executeUpdate:(NSString*)sql withArgumentsInArray:(NSArray *)arguments;
+- (ScDbResultSet *)executeQuery:(ScDbQuery *)sql;
+
+- (void)executeUpdate:(ScDbQuery *)sql;
+
 
 - (void)rollback;
 - (void)commit;

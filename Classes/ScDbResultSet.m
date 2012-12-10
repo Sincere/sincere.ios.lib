@@ -44,6 +44,11 @@
     return [_resultSet stringForColumn:columnName];
 }
 
+- (NSString*)stringForColumnIndex:(int)columnIndex
+{
+    return [_resultSet stringForColumnIndex:columnIndex];
+}
+
 - (NSDictionary*)resultDictionary
 {
     return [_resultSet resultDictionary];

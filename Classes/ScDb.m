@@ -62,11 +62,10 @@
     ScLog(@"Drop database %@", _databasePath);
 }
 
-- (BOOL)exists:(NSString*)sql withArgumentsInArray:(NSArray *)arguments
+- (BOOL)exists:(ScDbQuery*)sql
 {
-    ScLog(@"%@ %@", sql, arguments);
-    ScDbResultSet *rs = [[ScDbResultSet alloc]init];
-    [self executeQuery:sql withArgumentsInArray:arguments resultSet:rs];
+    ScLog(@"%@", sql);
+    ScDbResultSet *rs = [self executeQuery:sql];
     
     BOOL exists = [rs next];
     
@@ -75,23 +74,29 @@
     return exists;
 }
 
-- (void)executeUpdate:(NSString*)sql withArgumentsInArray:(NSArray *)arguments
+
+- (void)executeUpdate:(ScDbQuery *)sql;
 {
-    ScLog(@"%@ %@", sql, arguments);
-    BOOL __unused res = [_db executeUpdate:sql withArgumentsInArray:arguments];
+    ScLog(@"%@", sql);
+    BOOL __unused res = [_db executeUpdate:[sql render] withArgumentsInArray:[sql values]];
     NSAssert(res, [[_db lastError] localizedDescription]);
 }
 
-- (void)executeQuery:(NSString*)sql resultSet:(ScDbResultSet *)resultSet
+- (ScDbResultSet *)executeQuery:(ScDbQuery *)sql
 {
     ScLog(@"%@", sql);
-    [resultSet setResultSet:[_db executeQuery:sql]];
+    
+    ScDbResultSet *rs = [[ScDbResultSet alloc]init];
+    [rs setResultSet:[_db executeQuery:[sql render] withArgumentsInArray:[sql values]]];
+    return rs;
 }
 
-- (void)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray *)arguments resultSet:(ScDbResultSet *)resultSet
+- (NSString *)fetchOne:(ScDbQuery *)query
 {
-    ScLog(@"%@ %@", sql, arguments);
-    [resultSet setResultSet:[_db executeQuery:sql withArgumentsInArray:arguments]];
+    ScDbResultSet *rs = [self executeQuery:query];
+    [rs next];
+    
+    return [rs stringForColumnIndex:0];
 }
 
 
