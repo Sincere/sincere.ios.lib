@@ -99,6 +99,34 @@
     return [rs stringForColumnIndex:0];
 }
 
+- (NSArray *)fetchCol:(ScDbQuery *)query
+{
+    NSMutableArray *cols = [[NSMutableArray alloc]init];
+    ScDbResultSet *rs = [self executeQuery:query];
+    while ([rs next])
+    {
+        [cols addObject:[rs stringForColumnIndex:0]];
+    }
+    
+    [rs close];
+    
+    return cols;
+}
+
+- (NSArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName
+{
+    NSMutableArray *records = [[NSMutableArray alloc]init];
+    ScDbResultSet *rs = [self executeQuery:query];
+    while ([rs next])
+    {
+        [records addObject:[[NSClassFromString(recordName) alloc]initWithDictionary:[rs resultDictionary]]];
+    }
+    
+    [rs close];
+    
+    return records;
+}
+
 
 - (void)rollback
 {

@@ -28,6 +28,8 @@
 - (void)drop;
 
 - (NSString *)fetchOne:(ScDbQuery *)query;
+- (NSArray *)fetchCol:(ScDbQuery *)query;
+- (NSArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName;
 
 - (BOOL)exists:(ScDbQuery*)sql;
 
