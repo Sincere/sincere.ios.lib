@@ -12,6 +12,7 @@
 #import "ScDbResultSet.h"
 #import "NSData+ScDataShortDescription.h"
 #import "ScDbQuery.h"
+#import "ScDbRecord.h"
 
 @class ScDbResultSet;
 @interface ScDb : NSObject
@@ -28,8 +29,10 @@
 - (void)drop;
 
 - (NSString *)fetchOne:(ScDbQuery *)query;
-- (NSArray *)fetchCol:(ScDbQuery *)query;
-- (NSArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName;
+- (NSMutableArray *)fetchCol:(ScDbQuery *)query;
+- (NSMutableDictionary *)fetchPair:(ScDbQuery *)query;
+- (NSMutableArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName;
+- (id)findRecord:(ScDbQuery *)query recordName:(NSString *)recordName;
 
 - (BOOL)exists:(ScDbQuery*)sql;
 

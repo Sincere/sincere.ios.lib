@@ -88,6 +88,8 @@
     
     ScDbResultSet *rs = [[ScDbResultSet alloc]init];
     [rs setResultSet:[_db executeQuery:[sql render] withArgumentsInArray:[sql values]]];
+    NSAssert1([_db lastErrorCode] == 0, @"%@", [_db lastError]);
+
     return rs;
 }
 
@@ -113,18 +115,51 @@
     return cols;
 }
 
+- (NSMutableDictionary *)fetchPair:(ScDbQuery *)query
+{
+    NSMutableDictionary *pair = [[NSMutableDictionary alloc]init];
+    ScDbResultSet *rs = [self executeQuery:query];
+    while ([rs next])
+    {
+        [pair setObject:[rs stringForColumnIndex:1] forKey:[rs stringForColumnIndex:0]];
+    }
+    
+    [rs close];
+    
+    return pair;
+    
+}
+
 - (NSArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName
 {
     NSMutableArray *records = [[NSMutableArray alloc]init];
     ScDbResultSet *rs = [self executeQuery:query];
     while ([rs next])
     {
-        [records addObject:[[NSClassFromString(recordName) alloc]initWithDictionary:[rs resultDictionary]]];
+        id rec = [[NSClassFromString(recordName) alloc]initWithDictionary:[rs resultDictionary]];
+        NSAssert1(rec != nil, @"%@ record class is not exists", recordName);
+        [records addObject:rec];
     }
     
     [rs close];
     
     return records;
+}
+
+- (id)findRecord:(ScDbQuery *)query recordName:(NSString *)recordName
+{
+    ScDbResultSet *rs = [self executeQuery:query];
+    id rec = nil;
+    while([rs next])
+    {
+        NSAssert1(rec == nil, @"ResultSet has multilple records %@", rec);
+        rec = [[NSClassFromString(recordName) alloc]initWithDictionary:[rs resultDictionary]];
+        NSAssert1(rec != nil, @"%@ record class is not exists", recordName);
+    }
+    
+    [rs close];
+    
+    return rec;
 }
 
 
