@@ -88,7 +88,7 @@
     
     ScDbResultSet *rs = [[ScDbResultSet alloc]init];
     [rs setResultSet:[_db executeQuery:[sql render] withArgumentsInArray:[sql values]]];
-    NSAssert1([_db lastErrorCode] == 0, @"%@", [_db lastError]);
+    NSAssert2([_db lastErrorCode] == 0, @"%@ %@", [_db lastError], sql);
 
     return rs;
 }
