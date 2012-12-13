@@ -8,12 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (ScResize)
+@interface UIImage (ScUtil)
 
--(UIImage *)imageResizedByWidth:(NSInteger) width;
+- (CGSize)sizeWithResizedByWidth:(CGFloat) width;
 
--(UIImage *)imageResizedByHeight:(NSInteger) height;
+- (CGSize)sizeWithResizedByHeight:(CGFloat) height;
 
--(UIImage *)imageResized:(CGSize) size;
+- (UIImage *)imageWithResizeByWidth:(CGFloat) width;
+
+- (UIImage *)imageWithResizeByHeight:(CGFloat) height;
+
+- (UIImage *)imageWithResize:(CGSize) size;
+
+- (UIImage *)imageWithCrop:(CGRect)rect;
+
+- (UIImage *)normalizeForMask;
+
+- (UIImage *)imageWithMask:(UIImage *)maskImage;
+
 
 @end
