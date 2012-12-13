@@ -15,7 +15,7 @@
     self = [super init];
     if (self != nil)
     {
-        _values = dictionary;
+        _values = [[NSMutableDictionary alloc]initWithDictionary:dictionary];
     }
     return self;
 }
@@ -30,6 +30,11 @@
     }
     
     return value;
+}
+
+- (void)set:(NSString *)value forKey:(NSString *)key
+{
+    [_values setObject:value forKey:key];
 }
 
 - (NSString *)description

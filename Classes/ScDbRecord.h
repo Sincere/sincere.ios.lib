@@ -11,11 +11,12 @@
 
 @interface ScDbRecord : NSObject
 {
-    NSDictionary *_values;
+    NSMutableDictionary *_values;
 }
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
 - (NSString *)get:(NSString *)name;
+- (void)set:(NSString *)value forKey:(NSString *)key;
 
 @end
