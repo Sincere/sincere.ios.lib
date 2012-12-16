@@ -162,7 +162,6 @@
     return rec;
 }
 
-
 - (void)rollback
 {
     BOOL __unused res = [_db rollback];

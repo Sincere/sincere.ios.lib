@@ -48,19 +48,37 @@
 
 - (void)add:(NSString *)query values:(NSArray *)values
 {
+    int index = 0;
     for (id value in values)
     {
         if([value isKindOfClass:[NSString class]])
         {
-            [_values addObject:value];
+            if([value isEqualToString:@"<null>"])
+            {
+                NSMutableArray *split = [NSMutableArray arrayWithArray:[query componentsSeparatedByString:@"?"]];
+                [split setObject:[NSString stringWithFormat:@"%@NULL%@", [split objectAtIndex:index], [split objectAtIndex:index + 1]] atIndexedSubscript:index];
+                [split removeObjectAtIndex:index + 1];
+                query = [split componentsJoinedByString:@"?"];
+                
+                --index;
+            }
+            else
+            {
+                [_values addObject:value];
+            }
         }
         else if([value isKindOfClass:[NSArray class]])
         {
             query = [self replaceInStatement:query values:value];
             [_values addObjectsFromArray:value];
         }
-    }
+        
     
+        ++index;
+    }
+
+    
+
     [self add:query];
 }
 
