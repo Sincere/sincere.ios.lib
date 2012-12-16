@@ -22,11 +22,11 @@
 }
 
 
-- (void)drawRect:(CGRect)rect
-{
-    [super drawRect:rect];
-    self.view.frame = self.contentView.bounds;
-}
+//- (void)drawRect:(CGRect)rect
+//{
+//    [super drawRect:rect];
+//    self.view.frame = self.contentView.bounds;
+//}
 
 - (NSString *)nibName
 {

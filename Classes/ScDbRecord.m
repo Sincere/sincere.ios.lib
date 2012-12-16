@@ -42,4 +42,27 @@
     return [_values description];
 }
 
+//- (BOOL)is:(NSString *)key
+//{
+//    return [(NSNumber *)[_values objectForKey:key] boolValue];
+//}
+//
+//- (void)setBool:(BOOL)value forKey:(NSString *)key
+//{
+//    [_values setObject:[[NSNumber alloc]initWithBool:value] forKey:key];
+//}
+
+#pragma mark - NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:_values forKey:@"values"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    if (self = [super init]) {
+        _values = [coder decodeObjectForKey:@"values"];
+    }
+    return self;
+}
+
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ScLog.h"
 
-@interface ScDbRecord : NSObject
+@interface ScDbRecord : NSObject<NSCoding>
 {
     NSMutableDictionary *_values;
 }
@@ -18,5 +18,7 @@
 
 - (NSString *)get:(NSString *)name;
 - (void)set:(NSString *)value forKey:(NSString *)key;
+//- (BOOL)is:(NSString *)key;
+//- (void)setBool:(BOOL)value forKey:(NSString *)key;
 
 @end
