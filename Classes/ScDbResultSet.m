@@ -51,7 +51,21 @@
 
 - (NSDictionary*)resultDictionary
 {
-    return [_resultSet resultDictionary];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    
+    int count = [_resultSet columnCount];
+    for (int i = 0; i < count; i++)
+    {
+        NSString *columnName = [_resultSet columnNameForIndex:i];
+        NSString *value = [_resultSet stringForColumn:columnName];
+        if(value != nil)
+        {
+            [dic setObject:value forKey:columnName];
+        }
+        
+    }
+    
+    return dic;
 }
 
 - (NSMutableArray*)arrayOfStringForColumn:(NSString*)columnName
