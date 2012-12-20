@@ -16,5 +16,6 @@
 
 - (NSString *)formatedSec;
 - (void)logSec;
++ (ScBenchmark *) sharedInstance;
 
 @end
