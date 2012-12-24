@@ -112,7 +112,9 @@
 #pragma mark - private
 - (NSString *)replaceInStatement:(NSString *)query values:(NSArray *)values
 {
-    NSMutableString *inStatement = [[NSMutableString alloc]initWithString:@"(?"];
+    
+    NSMutableString *inStatement = [NSMutableString stringWithCapacity:100];
+    [inStatement appendString:@"(?"];
     for (int i = 0; i < [values count] - 1; i++)
     {
         [inStatement appendString:@", ?"];
