@@ -101,7 +101,7 @@
     return [rs stringForColumnIndex:0];
 }
 
-- (NSArray *)fetchCol:(ScDbQuery *)query
+- (NSMutableArray *)fetchCol:(ScDbQuery *)query
 {
     NSMutableArray *cols = [[NSMutableArray alloc]init];
     ScDbResultSet *rs = [self executeQuery:query];
@@ -130,7 +130,7 @@
     
 }
 
-- (NSArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName
+- (NSMutableArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName
 {
     NSMutableArray *records = [[NSMutableArray alloc]init];
     ScDbResultSet *rs = [self executeQuery:query];
