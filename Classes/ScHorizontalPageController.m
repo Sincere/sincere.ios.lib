@@ -20,12 +20,13 @@ static NSInteger PRE_LOAD_COUNT = 3;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _pageIndexes = [[NSMutableArray alloc]initWithCapacity:PRE_LOAD_COUNT];
         _pages = [[NSMutableDictionary alloc]initWithCapacity:PRE_LOAD_COUNT];
         
         _scrollView = [[UIScrollView alloc]init];
         _scrollView.delegate = self;
         _scrollView.pagingEnabled = YES;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
         [self.view addSubview:_scrollView];
         
         
@@ -35,74 +36,96 @@ static NSInteger PRE_LOAD_COUNT = 3;
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-	// Do any additional setup after loading the view.
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
-    _totalPageCount = [self horizontalPageControllerNumberOfPages:self];
+    [self reloadPages];
+}
+
+- (void)reloadPages
+{
     _scrollView.frame = self.view.frame;
-    NSInteger preLoadCount = _totalPageCount < PRE_LOAD_COUNT ? _totalPageCount : PRE_LOAD_COUNT;
-    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width * _totalPageCount, self.view.frame.size.height);
+    
+    _numberOfPages = [self horizontalPageControllerNumberOfPages:self];
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * _numberOfPages, self.view.frame.size.height);
     
     NSInteger startPage = [self horizontalPageControllerStartPageIndex:self];
-    int start = startPage - 1 < 0 ? 0 : startPage - ((preLoadCount - 1) / 2);
-    for (int i = start; i < start + preLoadCount; i++)
-    {
-        [self loadPageForIndex:i];
-    }
+    
+    [self loadPageWithPreLoadPage:startPage];
     
     [self.scrollView setContentOffset: CGPointMake(startPage * self.view.frame.size.width, 0)];
 }
 
-- (void)didReceiveMemoryWarning
+#pragma mark - private
+- (void)loadPageWithPreLoadPage:(NSInteger)page
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSArray *cachedPages = [_pages allKeys];
+    if([cachedPages indexOfObject:[NSNumber numberWithInteger:page]] == NSNotFound)
+    {
+        [self loadPage:page];
+    }
+    
+    NSInteger eachPreloadCount = (PRE_LOAD_COUNT - 1) / 2;
+    //前方のpreload
+    for (int key = 1; key <= eachPreloadCount; key++)
+    {
+        NSInteger targetPage = page + key;
+        if([cachedPages indexOfObject:[NSNumber numberWithInteger:targetPage]] == NSNotFound)
+        {
+            [self loadPage:targetPage];
+        }
+    }
+    
+    //もう一個先のpreloadがあったら削除
+    [self removePreLoadCach: page + eachPreloadCount + 1];
+    
+    
+    //後方のpreload
+    for (int key = 1; key <= eachPreloadCount; key++)
+    {
+        NSInteger targetPage = page - key;
+        if(targetPage >= 0 && [cachedPages indexOfObject:[NSNumber numberWithInteger:targetPage]] == NSNotFound)
+        {
+            [self loadPage:targetPage];
+        }
+    }
+    
+    //もう一個手前のpreloadがあったら削除
+    [self removePreLoadCach: page - eachPreloadCount - 1];
+    
+    [self.delegate horizontalPageController:self didDisplayPageIndex:page];
 }
 
-#pragma mark - private
-- (void)loadPageForIndex:(NSInteger)index;
+- (void)removePreLoadCach:(NSInteger)page
 {
     
-    
-    NSNumber *targetIndex = [NSNumber numberWithInteger:index];
-    if(_pageIndexes.count == PRE_LOAD_COUNT)
+    if(page < 0 || page >= _numberOfPages)
     {
-        NSNumber *removeIndex;
-        if(_direction == ScHorizontalPageChangeDirectionForward)
-        {
-            
-            removeIndex = [_pageIndexes objectAtIndex:0];
-            [_pageIndexes removeObjectAtIndex:0];
-            [_pageIndexes addObject:targetIndex];
-        }
-        else
-        {
-            
-            NSInteger key = PRE_LOAD_COUNT - 1;
-            removeIndex = [_pageIndexes objectAtIndex: key];
-            [_pageIndexes removeObjectAtIndex:key];
-            [_pageIndexes insertObject:targetIndex atIndex:0];
-        }
+        return;
+    }
+    
+    NSNumber *targetIndex = [NSNumber numberWithInteger:page];
+    UIView *view = [_pages objectForKey:targetIndex];
+    
+    if(view != nil)
+    {
+        [_pages removeObjectForKey:targetIndex];
+        [view removeFromSuperview];
+    }
+    
+}
 
-        UIView *removeView = [_pages objectForKey:removeIndex];
-        [_pages removeObjectForKey:removeIndex];
-        [removeView removeFromSuperview];
-    }
-    else
+- (void)loadPage:(NSInteger)page;
+{
+    if(page < 0 || page >= _numberOfPages)
     {
-        [_pageIndexes addObject:targetIndex];
+        return;
     }
     
-    UIView *view = [self horizontalPageController:self pageForIndex:index];
+    UIView *view = [self horizontalPageController:self pageForIndex:page];
+    NSNumber *targetIndex = [NSNumber numberWithInteger:page];
+    
     CGRect rect = self.view.frame;
-    view.frame = CGRectMake(rect.size.width * index, rect.origin.y, rect.size.width, rect.size.height);
-    //NSLog(@"LOAD %d %@ %@", index, NSStringFromCGRect(view.frame), _pageIndexes);
+    view.frame = CGRectMake(rect.size.width * page, rect.origin.y, rect.size.width, rect.size.height);
     [_scrollView addSubview:view];
     
     [_pages setObject:view forKey:targetIndex];
@@ -119,40 +142,9 @@ static NSInteger PRE_LOAD_COUNT = 3;
     NSInteger newPage = lround(fractionalPage);
     if (_currentPage != newPage)
     {
-        
-        
-        if(_currentPage < newPage)
-        {
-            NSLog(@"Forward");
-            _direction = ScHorizontalPageChangeDirectionForward;
-        }
-        else
-        {
-            NSLog(@"Backword");
-            _direction = ScHorizontalPageChangeDirectionBackward;
-        }
-        
         _currentPage = newPage;
         
-        NSInteger nextPage = newPage + 1;
-        if(nextPage <= _totalPageCount)
-        {
-            if([_pageIndexes indexOfObject:[NSNumber numberWithInteger:nextPage]] == NSNotFound)
-            {
-                [self loadPageForIndex:nextPage];
-            }
-        }
-        
-        NSInteger prevPage = newPage - 1;
-        if(prevPage >= 0)
-        {
-            if([_pageIndexes indexOfObject:[NSNumber numberWithInteger:prevPage]] == NSNotFound)
-            {
-                [self loadPageForIndex:prevPage];
-            }
-        }
-        
-        [self.delegate horizontalPageController:self didDisplayPageIndex:_currentPage];
+        [self loadPageWithPreLoadPage:_currentPage];
     }
 }
 
@@ -163,16 +155,16 @@ static NSInteger PRE_LOAD_COUNT = 3;
     return 0;
 }
 
+- (UIView *)horizontalPageController:(ScHorizontalPageController *)controller pageForIndex:(NSInteger)page
+{
+    NSAssert(NO, @"This is an abstract method and should be overridden");
+    return nil;
+}
+
 - (NSInteger)horizontalPageControllerNumberOfPages:(ScHorizontalPageController *)controller
 {
     NSAssert(NO, @"This is an abstract method and should be overridden");
     return 0;
-}
-
-- (UIView *)horizontalPageController:(ScHorizontalPageController *)controller pageForIndex:(NSInteger)index
-{
-    NSAssert(NO, @"This is an abstract method and should be overridden");
-    return nil;
 }
 
 @end

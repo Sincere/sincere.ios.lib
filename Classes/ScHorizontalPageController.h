@@ -9,23 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "ScLog.h"
 
-typedef enum {
-    ScHorizontalPageChangeDirectionForward,
-    ScHorizontalPageChangeDirectionBackward,
-} ScHorizontalPageChangeDirection;
-
 @class ScHorizontalPageController;
 @protocol ScHorizontalPageControllerDataSource
 
-- (NSInteger)horizontalPageControllerStartPageIndex:(ScHorizontalPageController *)controller;
 - (NSInteger)horizontalPageControllerNumberOfPages:(ScHorizontalPageController *)controller;
-- (UIView *)horizontalPageController:(ScHorizontalPageController *)controller pageForIndex:(NSInteger)index;
+- (NSInteger)horizontalPageControllerStartPageIndex:(ScHorizontalPageController *)controller;
+- (UIView *)horizontalPageController:(ScHorizontalPageController *)controller pageForIndex:(NSInteger)page;
 
 @end
 
 @protocol ScHorizontalPageControllerDelegate
 
-- (void)horizontalPageController:(ScHorizontalPageController *)controller didDisplayPageIndex:(NSInteger)index;
+- (void)horizontalPageController:(ScHorizontalPageController *)controller didDisplayPageIndex:(NSInteger)page;
 
 @end
 
@@ -33,15 +28,15 @@ typedef enum {
 {
     @private
     UIScrollView *_scrollView;
-    NSMutableArray *_pageIndexes;
     NSMutableDictionary *_pages;
-    NSInteger _totalPageCount;
+    NSInteger _numberOfPages;
     NSInteger _currentPage;
-    ScHorizontalPageChangeDirection _direction;
     BOOL _bouncing;
 }
 
 @property (nonatomic, readonly) UIScrollView *scrollView;
 @property (nonatomic, strong) id<ScHorizontalPageControllerDelegate>delegate;
+
+- (void)reloadPages;
 
 @end
