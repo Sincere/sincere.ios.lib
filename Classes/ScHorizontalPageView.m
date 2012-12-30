@@ -6,28 +6,26 @@
 //  Copyright (c) 2012年 Masamoto Miyata. All rights reserved.
 //
 
-#import "ScHorizontalPageController.h"
+#import "ScHorizontalPageView.h"
 
-@interface ScHorizontalPageController ()
+@interface ScHorizontalPageView ()
 
 @end
 
-@implementation ScHorizontalPageController
+@implementation ScHorizontalPageView
 
 static NSInteger PRE_LOAD_COUNT = 3;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithFrame:frame];
     if (self) {
         _pages = [[NSMutableDictionary alloc]initWithCapacity:PRE_LOAD_COUNT];
         
-        _scrollView = [[UIScrollView alloc]init];
-        _scrollView.delegate = self;
-        _scrollView.pagingEnabled = YES;
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.showsVerticalScrollIndicator = NO;
-        [self.view addSubview:_scrollView];
+        self.delegate = self;
+        self.pagingEnabled = YES;
+        self.showsHorizontalScrollIndicator = NO;
+        self.showsVerticalScrollIndicator = NO;
         
         
         _currentPage = 0;
@@ -36,23 +34,16 @@ static NSInteger PRE_LOAD_COUNT = 3;
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self reloadPages];
-}
-
 - (void)reloadPages
 {
-    _scrollView.frame = self.view.frame;
+    _numberOfPages = [self.pageViewDataSource pageViewNumberOfPages:self];
+    self.contentSize = CGSizeMake(self.frame.size.width * _numberOfPages, self.frame.size.height);
     
-    _numberOfPages = [self.dataSource horizontalPageControllerNumberOfPages:self];
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * _numberOfPages, self.view.frame.size.height);
-    
-    NSInteger startPage = [self.dataSource horizontalPageControllerStartPageIndex:self];
+    NSInteger startPage = [self.pageViewDataSource pageViewStartPageIndex:self];
     
     [self loadPageWithPreLoadPage:startPage];
     
-    [self.scrollView setContentOffset: CGPointMake(startPage * self.view.frame.size.width, 0)];
+    [self setContentOffset: CGPointMake(startPage * self.frame.size.width, 0)];
 }
 
 #pragma mark - private
@@ -92,7 +83,7 @@ static NSInteger PRE_LOAD_COUNT = 3;
     //もう一個手前のpreloadがあったら削除
     [self removePreLoadCach: page - eachPreloadCount - 1];
     
-    [self.delegate horizontalPageController:self didDisplayPageIndex:page];
+    [self.pageViewDelegate pageView:self didDisplayPageIndex:page];
 }
 
 - (void)removePreLoadCach:(NSInteger)page
@@ -121,12 +112,12 @@ static NSInteger PRE_LOAD_COUNT = 3;
         return;
     }
     
-    UIView *view = [self.dataSource horizontalPageController:self pageForIndex:page];
+    UIView *view = [self.pageViewDataSource pageView:self pageForIndex:page];
     NSNumber *targetIndex = [NSNumber numberWithInteger:page];
     
-    CGRect rect = self.view.frame;
+    CGRect rect = self.frame;
     view.frame = CGRectMake(rect.size.width * page, rect.origin.y, rect.size.width, rect.size.height);
-    [_scrollView addSubview:view];
+    [self addSubview:view];
     
     [_pages setObject:view forKey:targetIndex];
 }
