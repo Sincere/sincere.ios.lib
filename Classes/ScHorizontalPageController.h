@@ -24,7 +24,7 @@
 
 @end
 
-@interface ScHorizontalPageController : UIViewController<UIScrollViewDelegate, ScHorizontalPageControllerDataSource>
+@interface ScHorizontalPageController : UIViewController<UIScrollViewDelegate>
 {
     @private
     UIScrollView *_scrollView;
@@ -36,6 +36,7 @@
 
 @property (nonatomic, readonly) UIScrollView *scrollView;
 @property (nonatomic, strong) id<ScHorizontalPageControllerDelegate>delegate;
+@property (nonatomic, strong) id<ScHorizontalPageControllerDataSource>dataSource;
 
 - (void)reloadPages;
 

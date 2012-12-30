@@ -45,10 +45,10 @@ static NSInteger PRE_LOAD_COUNT = 3;
 {
     _scrollView.frame = self.view.frame;
     
-    _numberOfPages = [self horizontalPageControllerNumberOfPages:self];
+    _numberOfPages = [self.dataSource horizontalPageControllerNumberOfPages:self];
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width * _numberOfPages, self.view.frame.size.height);
     
-    NSInteger startPage = [self horizontalPageControllerStartPageIndex:self];
+    NSInteger startPage = [self.dataSource horizontalPageControllerStartPageIndex:self];
     
     [self loadPageWithPreLoadPage:startPage];
     
@@ -121,7 +121,7 @@ static NSInteger PRE_LOAD_COUNT = 3;
         return;
     }
     
-    UIView *view = [self horizontalPageController:self pageForIndex:page];
+    UIView *view = [self.dataSource horizontalPageController:self pageForIndex:page];
     NSNumber *targetIndex = [NSNumber numberWithInteger:page];
     
     CGRect rect = self.view.frame;
@@ -147,24 +147,4 @@ static NSInteger PRE_LOAD_COUNT = 3;
         [self loadPageWithPreLoadPage:_currentPage];
     }
 }
-
-#pragma mark - ScHorizontalPageControllerDataSource
-- (NSInteger)horizontalPageControllerStartPageIndex:(ScHorizontalPageController *)controller
-{
-    NSAssert(NO, @"This is an abstract method and should be overridden");
-    return 0;
-}
-
-- (UIView *)horizontalPageController:(ScHorizontalPageController *)controller pageForIndex:(NSInteger)page
-{
-    NSAssert(NO, @"This is an abstract method and should be overridden");
-    return nil;
-}
-
-- (NSInteger)horizontalPageControllerNumberOfPages:(ScHorizontalPageController *)controller
-{
-    NSAssert(NO, @"This is an abstract method and should be overridden");
-    return 0;
-}
-
 @end
