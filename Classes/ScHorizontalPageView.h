@@ -9,14 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "ScLog.h"
 
+@protocol ScHorizontalPageViewPage
+- (void)prepareForReuse;
+@end
+
 @class ScHorizontalPageView;
 @protocol ScHorizontalPageViewDataSource
 
-- (NSInteger)pageViewNumberOfPages:(ScHorizontalPageView *)controller;
-- (NSInteger)pageViewStartPageIndex:(ScHorizontalPageView *)controller;
-- (UIView *)pageView:(ScHorizontalPageView *)controller pageForIndex:(NSInteger)page;
+- (NSInteger)pageViewNumberOfPages:(ScHorizontalPageView *)pageView;
+- (NSInteger)pageViewStartPageIndex:(ScHorizontalPageView *)pageView;
+- (UIView<ScHorizontalPageViewPage> *)pageView:(ScHorizontalPageView *)pageView pageForIndex:(NSInteger)page;
 
 @end
+
+
 
 @protocol ScHorizontalPageViewDelegate
 
@@ -31,6 +37,7 @@
     NSInteger _numberOfPages;
     NSInteger _currentPage;
     BOOL _bouncing;
+    NSMutableArray *_reusablePages;
 }
 
 @property (nonatomic, strong) id<ScHorizontalPageViewDelegate>pageViewDelegate;
@@ -38,5 +45,6 @@
 
 - (void)reloadPages;
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;
+- (UIView *)dequeueReusablePage;
 
 @end

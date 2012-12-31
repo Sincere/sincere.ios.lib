@@ -21,7 +21,7 @@ static NSInteger PRE_LOAD_COUNT = 3;
     self = [super initWithFrame:frame];
     if (self) {
         _pages = [[NSMutableDictionary alloc]initWithCapacity:PRE_LOAD_COUNT];
-        
+        _reusablePages = [[NSMutableArray alloc]init];
         self.delegate = self;
         self.pagingEnabled = YES;
         self.showsHorizontalScrollIndicator = NO;
@@ -50,6 +50,20 @@ static NSInteger PRE_LOAD_COUNT = 3;
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated
 {
     [self setContentOffset:CGPointMake(page * self.frame.size.width, 0) animated:animated];
+}
+
+- (UIView *)dequeueReusablePage
+{
+    if(_reusablePages.count == 0)
+    {
+        return nil;
+    }
+    
+    
+    UIView *view = [_reusablePages objectAtIndex:0];
+    [_reusablePages removeObjectAtIndex:0];
+    
+    return view;
 }
 
 #pragma mark - private
@@ -90,8 +104,6 @@ static NSInteger PRE_LOAD_COUNT = 3;
     [self removePreLoadCach: page - eachPreloadCount - 1];
     
     [self.pageViewDelegate pageView:self didDisplayPageIndex:page];
-    
-    NSLog(@"%@ %@", self, self.subviews);
 }
 
 - (void)removePreLoadCach:(NSInteger)page
@@ -103,13 +115,16 @@ static NSInteger PRE_LOAD_COUNT = 3;
     }
     
     NSNumber *targetIndex = [NSNumber numberWithInteger:page];
-    UIView *view = [_pages objectForKey:targetIndex];
+    UIView<ScHorizontalPageViewPage> *view = [_pages objectForKey:targetIndex];
     
-    [_pages removeObjectForKey:targetIndex];
-    [view removeFromSuperview];
-    
-    view = nil;
-    
+    if(view != nil)
+    {
+        [_pages removeObjectForKey:targetIndex];
+        [view removeFromSuperview];
+        [view prepareForReuse];
+        
+        [_reusablePages addObject:view];
+    }
 }
 
 - (void)loadPage:(NSInteger)page;
