@@ -26,6 +26,7 @@ static NSInteger PRE_LOAD_COUNT = 3;
         self.pagingEnabled = YES;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
+        self.scrollsToTop = NO;
         
         
         _currentPage = 0;
@@ -44,6 +45,11 @@ static NSInteger PRE_LOAD_COUNT = 3;
     [self loadPageWithPreLoadPage:startPage];
     
     [self setContentOffset: CGPointMake(startPage * self.frame.size.width, 0)];
+}
+
+- (void)scrollToPage:(NSInteger)page animated:(BOOL)animated
+{
+    [self setContentOffset:CGPointMake(page * self.frame.size.width, 0) animated:animated];
 }
 
 #pragma mark - private
@@ -84,6 +90,8 @@ static NSInteger PRE_LOAD_COUNT = 3;
     [self removePreLoadCach: page - eachPreloadCount - 1];
     
     [self.pageViewDelegate pageView:self didDisplayPageIndex:page];
+    
+    NSLog(@"%@ %@", self, self.subviews);
 }
 
 - (void)removePreLoadCach:(NSInteger)page
@@ -97,11 +105,10 @@ static NSInteger PRE_LOAD_COUNT = 3;
     NSNumber *targetIndex = [NSNumber numberWithInteger:page];
     UIView *view = [_pages objectForKey:targetIndex];
     
-    if(view != nil)
-    {
-        [_pages removeObjectForKey:targetIndex];
-        [view removeFromSuperview];
-    }
+    [_pages removeObjectForKey:targetIndex];
+    [view removeFromSuperview];
+    
+    view = nil;
     
 }
 
@@ -130,12 +137,13 @@ static NSInteger PRE_LOAD_COUNT = 3;
     float fractionalPage = scrollView.contentOffset.x / pageWidth;
     
     //半分を過ぎたらページが変わる（bounds）
-    NSInteger newPage = lround(fractionalPage);
+//    NSInteger newPage = lround(fractionalPage);
+    NSInteger newPage = floor(fractionalPage);
     if (_currentPage != newPage)
     {
-        _currentPage = newPage;
-        
+        _currentPage = fractionalPage;
         [self loadPageWithPreLoadPage:_currentPage];
+        
     }
 }
 @end

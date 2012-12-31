@@ -18,3 +18,5 @@
 #endif
 
 NSString* ScStringFromBOOL(BOOL value);
+
+void ScMemoryReport();

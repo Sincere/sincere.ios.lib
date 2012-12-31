@@ -37,5 +37,6 @@
 @property (nonatomic, strong) id<ScHorizontalPageViewDataSource>pageViewDataSource;
 
 - (void)reloadPages;
+- (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;
 
 @end

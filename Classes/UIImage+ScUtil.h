@@ -20,6 +20,8 @@
 
 - (UIImage *)imageWithResize:(CGSize) size;
 
+- (UIImage *)imageWithResizeByMaxSize:(CGSize) maxSize;
+
 - (UIImage *)imageWithCrop:(CGRect)rect;
 
 - (UIImage *)normalizeForMask;

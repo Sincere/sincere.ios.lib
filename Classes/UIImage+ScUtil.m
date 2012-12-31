@@ -70,6 +70,19 @@ static CGImageRef createMaskWithImage(CGImageRef image)
     return [self imageWithResize:size];
 }
 
+- (UIImage *)imageWithResizeByMaxSize:(CGSize) maxSize
+{
+    CGSize newSize = [self sizeWithResizedByWidth:maxSize.width];
+    if(newSize.height > maxSize.height)
+    {
+        return [self imageWithResizeByHeight:maxSize.height];
+    }
+    else
+    {
+        return [self imageWithResizeByWidth:maxSize.width];
+    }
+}
+
 -(UIImage *)imageWithResize:(CGSize) size
 {
     UIGraphicsBeginImageContext(size);
