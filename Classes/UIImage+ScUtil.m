@@ -70,6 +70,11 @@ static CGImageRef createMaskWithImage(CGImageRef image)
     return [self imageWithResize:size];
 }
 
+- (BOOL)isOverflowed:(CGSize) maxSize
+{
+    return self.size.height > maxSize.height || self.size.width > maxSize.width;
+}
+
 - (UIImage *)imageWithResizeByMaxSize:(CGSize) maxSize
 {
     CGSize newSize = [self sizeWithResizedByWidth:maxSize.width];

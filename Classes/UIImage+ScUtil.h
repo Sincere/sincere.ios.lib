@@ -20,6 +20,8 @@
 
 - (UIImage *)imageWithResize:(CGSize) size;
 
+- (BOOL)isOverflowed:(CGSize) maxSize;
+
 - (UIImage *)imageWithResizeByMaxSize:(CGSize) maxSize;
 
 - (UIImage *)imageWithCrop:(CGRect)rect;
