@@ -20,7 +20,7 @@
     return self;
 }
 
-- (NSString *)get:(NSString *)name
+- (id)get:(NSString *)name
 {
     id value = [_values objectForKey:name];
     
@@ -32,7 +32,7 @@
     return value;
 }
 
-- (void)set:(NSString *)value forKey:(NSString *)key
+- (void)set:(id)value forKey:(NSString *)key
 {
     [_values setObject:value forKey:key];
 }

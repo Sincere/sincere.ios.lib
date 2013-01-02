@@ -16,8 +16,8 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
-- (NSString *)get:(NSString *)name;
-- (void)set:(NSString *)value forKey:(NSString *)key;
+- (id)get:(NSString *)name;
+- (void)set:(id)value forKey:(NSString *)key;
 //- (BOOL)is:(NSString *)key;
 //- (void)setBool:(BOOL)value forKey:(NSString *)key;
 
