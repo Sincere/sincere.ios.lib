@@ -40,8 +40,8 @@
     NSMutableArray *_reusablePages;
 }
 
-@property (nonatomic, strong) id<ScHorizontalPageViewDelegate>pageViewDelegate;
-@property (nonatomic, strong) id<ScHorizontalPageViewDataSource>pageViewDataSource;
+@property (nonatomic, weak) id<ScHorizontalPageViewDelegate>pageViewDelegate;
+@property (nonatomic, weak) id<ScHorizontalPageViewDataSource>pageViewDataSource;
 
 - (void)reloadPages;
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;
