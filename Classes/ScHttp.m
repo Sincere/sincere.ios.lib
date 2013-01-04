@@ -29,7 +29,7 @@
     self = [self initWithUri:uri];
     if (self != nil)
     {
-        self.delegate = delegate;
+        _delegate = delegate;
     }
     
     return self;
@@ -51,9 +51,9 @@
     {
         if(_autoloadWaiting)
         {
-            if([(NSObject *)self.delegate respondsToSelector:@selector(endAutoLoadWait)])
+            if([(NSObject *)_delegate respondsToSelector:@selector(endAutoLoadWait)])
             {
-                [self.delegate endAutoLoadWait];
+                [_delegate endAutoLoadWait];
             }
             
             _autoloadWaiting = NO;
@@ -243,9 +243,9 @@
     {
         if(_autoloadWaiting == NO)
         {
-            if([(NSObject *)self.delegate respondsToSelector:@selector(startAutoLoadWait)])
+            if([(NSObject *)_delegate respondsToSelector:@selector(startAutoLoadWait)])
             {
-                [self.delegate startAutoLoadWait];
+                [_delegate startAutoLoadWait];
             }
             
             _autoloadWaiting = YES;
@@ -269,7 +269,7 @@
     }
     
     [_receivedData setLength:_loadedBytes];
-    [self.delegate http:self connection:connection didReceiveResponse:response];
+    [_delegate http:self connection:connection didReceiveResponse:response];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -282,14 +282,14 @@
         [_progressView setProgress:(progress)];
     }
     
-    [self.delegate http:self connection:connection progress:progress];
+    [_delegate http:self connection:connection progress:progress];
     
     [_receivedData appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self.delegate http:self connection:connection didFailWithError:error];
+    [_delegate http:self connection:connection didFailWithError:error];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -299,7 +299,7 @@
         [_progressView setProgress:1.0];
     }
     
-    [self.delegate http:self connection: connection didFinishLoading:_receivedData];
+    [_delegate http:self connection: connection didFinishLoading:_receivedData];
 }
 
 @end

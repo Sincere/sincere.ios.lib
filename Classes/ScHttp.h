@@ -38,14 +38,15 @@
     NSTimeInterval _autoloadSec;
     BOOL _autoloadWaiting;
     
+    
     @protected
     NSMutableData *_receivedData;
     UIProgressView *_progressView;
+    id<ScHttpDelegate> _delegate;
     
 }
 
 @property (nonatomic, readonly) NSString *uri;
-@property (nonatomic, strong) id<ScHttpDelegate> delegate;
 - (id) initWithUri: (NSString *) uri;
 - (id) initWithUri: (NSString *) uri delegate: (id<ScHttpDelegate>) delegate;
 - (void) load;
