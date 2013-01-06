@@ -14,6 +14,9 @@
 
 @implementation ScHorizontalPageView
 
+@synthesize currentPageIndex = _currentPageIndex;
+@synthesize numberOfPages = _numberOfPages;
+
 static NSInteger PRE_LOAD_COUNT = 3;
 
 - (id)initWithFrame:(CGRect)frame
@@ -29,8 +32,11 @@ static NSInteger PRE_LOAD_COUNT = 3;
         self.scrollsToTop = NO;
         
         
-        _currentPage = 0;
-        _bouncing = NO;
+        _currentPageIndex = 0;
+        
+        _scrollStarted = NO;
+        self.scrollNextEnabled = YES;
+        self.scrollPrevEnabled = YES;
     }
     return self;
 }
@@ -39,17 +45,29 @@ static NSInteger PRE_LOAD_COUNT = 3;
 {
     _numberOfPages = [self.pageViewDataSource pageViewNumberOfPages:self];
     self.contentSize = CGSizeMake(self.frame.size.width * _numberOfPages, self.frame.size.height);
-    
     NSInteger startPage = [self.pageViewDataSource pageViewStartPageIndex:self];
     
     [self loadPageWithPreLoadPage:startPage];
+    _currentPageIndex = startPage;
     
-    [self setContentOffset: CGPointMake(startPage * self.frame.size.width, 0)];
+    [self scrollToPage:startPage animated:NO];
+    
+    [self.pageViewDelegate pageView:self didDisplayPage:[_pages objectForKey:[NSNumber numberWithInteger:startPage]] previousPage:nil];
 }
 
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated
 {
     [self setContentOffset:CGPointMake(page * self.frame.size.width, 0) animated:animated];
+}
+
+- (void)scrollToFirstPageAnimated:(BOOL)animated
+{
+    [self scrollToPage:0 animated:animated];
+}
+
+- (void)scrollToLastPageAnimated:(BOOL)animated
+{
+    [self scrollToPage:_numberOfPages - 1 animated:animated];
 }
 
 - (UIView *)dequeueReusablePage
@@ -60,10 +78,36 @@ static NSInteger PRE_LOAD_COUNT = 3;
     }
     
     
-    UIView *view = [_reusablePages objectAtIndex:0];
+    ScHorizontalPageViewPage *view = [_reusablePages objectAtIndex:0];
+    view.pageIndex = 0;
     [_reusablePages removeObjectAtIndex:0];
     
     return view;
+}
+
+- (ScHorizontalPageViewPage *)previousPage
+{
+    return [self viewAtPage:_currentPageIndex - 1];
+}
+
+- (ScHorizontalPageViewPage *)nextPage
+{
+    return [self viewAtPage:_currentPageIndex + 1];
+}
+
+- (ScHorizontalPageViewPage *)currentPage
+{
+    return [self viewAtPage:_currentPageIndex];
+}
+
+- (BOOL)isFirstPage
+{
+    return self.currentPageIndex == 0;
+}
+
+- (BOOL)isLastPage
+{
+    return self.currentPageIndex == self.numberOfPages - 1;
 }
 
 #pragma mark - private
@@ -87,7 +131,7 @@ static NSInteger PRE_LOAD_COUNT = 3;
     }
     
     //もう一個先のpreloadがあったら削除
-    [self removePreLoadCach: page + eachPreloadCount + 1];
+    [self removePreLoadCache: page + eachPreloadCount + 1];
     
     
     //後方のpreload
@@ -101,12 +145,10 @@ static NSInteger PRE_LOAD_COUNT = 3;
     }
     
     //もう一個手前のpreloadがあったら削除
-    [self removePreLoadCach: page - eachPreloadCount - 1];
-    
-    [self.pageViewDelegate pageView:self didDisplayPageIndex:page];
+    [self removePreLoadCache: page - eachPreloadCount - 1];
 }
 
-- (void)removePreLoadCach:(NSInteger)page
+- (void)removePreLoadCache:(NSInteger)page
 {
     
     if(page < 0 || page >= _numberOfPages)
@@ -115,7 +157,7 @@ static NSInteger PRE_LOAD_COUNT = 3;
     }
     
     NSNumber *targetIndex = [NSNumber numberWithInteger:page];
-    UIView<ScHorizontalPageViewPage> *view = [_pages objectForKey:targetIndex];
+    ScHorizontalPageViewPage *view = [_pages objectForKey:targetIndex];
     
     if(view != nil)
     {
@@ -134,7 +176,8 @@ static NSInteger PRE_LOAD_COUNT = 3;
         return;
     }
     
-    UIView *view = [self.pageViewDataSource pageView:self pageForIndex:page];
+    ScHorizontalPageViewPage *view = [self.pageViewDataSource pageView:self pageForIndex:page];
+    view.pageIndex = page;
     NSNumber *targetIndex = [NSNumber numberWithInteger:page];
     
     CGRect rect = self.frame;
@@ -144,6 +187,11 @@ static NSInteger PRE_LOAD_COUNT = 3;
     [_pages setObject:view forKey:targetIndex];
 }
 
+- (ScHorizontalPageViewPage *)viewAtPage:(NSInteger)page
+{
+    return [_pages objectForKey:[NSNumber numberWithInteger:page]];
+}
+
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -151,14 +199,59 @@ static NSInteger PRE_LOAD_COUNT = 3;
     CGFloat pageWidth = scrollView.frame.size.width;
     float fractionalPage = scrollView.contentOffset.x / pageWidth;
     
-    //半分を過ぎたらページが変わる（bounds）
-//    NSInteger newPage = lround(fractionalPage);
-    NSInteger newPage = floor(fractionalPage);
-    if (_currentPage != newPage)
+    if(_currentPageIndex != fractionalPage)
     {
-        _currentPage = fractionalPage;
-        [self loadPageWithPreLoadPage:_currentPage];
+        NSInteger newPage;
+        if(fractionalPage > _currentPageIndex)
+        {
+            if(!self.scrollNextEnabled)
+            {
+                [self scrollToPage:_currentPageIndex animated:NO];
+                return;
+            }
+            newPage = floorf(fractionalPage);
+        }
+        else if(fractionalPage < _currentPageIndex)
+        {
+            if(!self.scrollPrevEnabled)
+            {
+                [self scrollToPage:_currentPageIndex animated:NO];
+                return;
+            }
+            newPage = ceilf(fractionalPage);
+        }
         
+        if(newPage != _currentPageIndex)
+        {
+            ScHorizontalPageViewPage *previousPage = [self viewAtPage:_currentPageIndex];
+            _currentPageIndex = newPage;
+            [self loadPageWithPreLoadPage:_currentPageIndex];
+            [self.pageViewDelegate pageView:self didDisplayPage:[self viewAtPage:_currentPageIndex] previousPage:previousPage];
+        }
     }
+    
+    if(_currentPageIndex == fractionalPage)
+    {
+        _scrollStarted = NO;
+    }
+    
+    if(!_scrollStarted)
+    {
+        if(fractionalPage > _currentPageIndex)
+        {
+            _scrollStarted = YES;
+            [self.pageViewDelegate pageView:self startDragFrom:[self viewAtPage:_currentPageIndex] toView:[self viewAtPage:_currentPageIndex + 1]];
+        }
+        else if(fractionalPage < _currentPageIndex)
+        {
+            _scrollStarted = YES;
+            [self.pageViewDelegate pageView:self startDragFrom:[self viewAtPage:_currentPageIndex] toView:[self viewAtPage:_currentPageIndex - 1]];
+        }
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    //NSLog(@"end");
 }
 @end
