@@ -34,7 +34,11 @@
 
 - (void)set:(id)value forKey:(NSString *)key
 {
-    [_values setObject:value forKey:key];
+    if(value != nil)
+    {
+        [_values setObject:value forKey:key];
+    }
+    
 }
 
 - (NSString *)description
