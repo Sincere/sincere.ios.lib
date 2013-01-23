@@ -31,7 +31,7 @@
 //    ScPagePath *_pagePath;
 //    NSURLConnection *_connection;
 }
-
+//TODO weakにできないか？
 @property(nonatomic, strong) id<ScXmlApiHandlerDelegate>delegate;
 //@property(nonatomic, readonly) ScPagePath *pagePath;
 //@property(nonatomic, readonly) NSURLConnection *connection;
