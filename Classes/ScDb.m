@@ -166,19 +166,29 @@
 {
     BOOL __unused res = [_db rollback];
     NSAssert(res, [[_db lastError] localizedDescription]);
+    
+    ScLog(@"rollback");
 }
 
 - (void)commit
 {
     BOOL __unused res = [_db commit];
     NSAssert(res, [[_db lastError] localizedDescription]);
+    
+    ScLog(@"commit");
 }
 
 - (void)beginTransaction
 {
     BOOL __unused res = [_db beginTransaction];
     NSAssert(res, [[_db lastError] localizedDescription]);
+    
+    ScLog(@"beginTransaction");
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@[%@]", [super description], _databasePath];
+}
 
 @end
