@@ -56,6 +56,21 @@
 //    [_values setObject:[[NSNumber alloc]initWithBool:value] forKey:key];
 //}
 
+- (NSString *)formatedDate:(NSString *)column format:(NSString *)format
+{
+    NSString *stringDate = [self get:column];
+    
+    if(stringDate == nil)
+    {
+        return nil;
+    }
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:format];
+    
+    return [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[stringDate floatValue]]];
+}
+
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {

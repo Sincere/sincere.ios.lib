@@ -18,6 +18,7 @@
 
 - (id)get:(NSString *)name;
 - (void)set:(id)value forKey:(NSString *)key;
+- (NSString *)formatedDate:(NSString *)column format:(NSString *)format;
 //- (BOOL)is:(NSString *)key;
 //- (void)setBool:(BOOL)value forKey:(NSString *)key;
 
