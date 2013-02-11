@@ -12,7 +12,7 @@
 #import "ScPagePath.h"
 
 
-#pragma mark - FcApiHandlerDelegate
+#pragma mark - ScXmlApiHandlerDelegate
 @class ScXmlApiHandler;
 @protocol ScXmlApiHandlerDelegate
 
@@ -28,13 +28,10 @@
 
 @interface ScXmlApiHandler : NSObject<ScHttpDelegate>
 {
-//    ScPagePath *_pagePath;
-//    NSURLConnection *_connection;
+    
 }
 //TODO weakにできないか？
 @property(nonatomic, strong) id<ScXmlApiHandlerDelegate>delegate;
-//@property(nonatomic, readonly) ScPagePath *pagePath;
-//@property(nonatomic, readonly) NSURLConnection *connection;
 
 -(NSError *)createErrorWithCode:(NSString*)code message:(NSString *)message;
 
