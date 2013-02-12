@@ -21,7 +21,7 @@
     NSError *error = [self errorInXmlElement:response http:http];
     if(error)
     {
-        [self didFailWithCode:[NSString stringWithFormat:@"%d", error.code] message:[error localizedDescription]];
+        [self http:http didFailWithCode:[NSString stringWithFormat:@"%d", error.code] message:[error localizedDescription]];
     }
     else
     {
@@ -29,7 +29,7 @@
         
         [self.delegate http:http handler:self didLoadWithPagePath:pagePath];
         
-        [self.delegate handlerWillStart:self];
+        [self.delegate http:http handlerWillStart:self];
         
         @synchronized(self)
         {
@@ -42,7 +42,7 @@
 
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self didFailWithCode:@"9999" message:[NSString stringWithFormat:@"%d : %@", [error code], [error localizedDescription]]];
+    [self http:http didFailWithCode:@"9999" message:[NSString stringWithFormat:@"%d : %@", [error code], [error localizedDescription]]];
 }
 
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -74,8 +74,8 @@
 }
 
 #pragma mark - pivate
-- (void)didFailWithCode:(NSString *)code message:(NSString *)message;
+- (void)http:(ScHttp *)http didFailWithCode:(NSString *)code message:(NSString *)message;
 {
-    [self.delegate handler:self didFailWithCode:code message:message];
+    [self.delegate http:http handler:self didFailWithCode:code message:message];
 }
 @end

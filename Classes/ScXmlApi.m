@@ -56,12 +56,12 @@
     }
 }
 
-- (void)handler:(ScXmlApiHandler *)handler didFailWithCode:(NSString *)code message:(NSString *)message
+- (void)http:(ScHttp *)http handler:(ScXmlApiHandler *)handler didFailWithCode:(NSString *)code message:(NSString *)message
 {
     [self.delegate api:self didFailWithCode:code message:message];
 }
 
-- (void)handler:(ScXmlApiHandler *)handler incrementProgress:(double)progress
+- (void)http:(ScHttp *)http handler:(ScXmlApiHandler *)handler incrementProgress:(double)progress
 {
     @synchronized(self)
     {
@@ -113,7 +113,7 @@
     }
 }
 
-- (void)handlerWillStart:(ScXmlApiHandler *)handler
+- (void)http:(ScHttp *)http handlerWillStart:(ScXmlApiHandler *)handler
 {
     
 }

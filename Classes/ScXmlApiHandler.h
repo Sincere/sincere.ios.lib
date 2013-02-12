@@ -18,9 +18,9 @@
 
 - (void)http:(ScHttp *)http handler:(ScXmlApiHandler *)handler didLoadWithPagePath:(ScPagePath *)pagePath;
 - (void)http:(ScHttp *)http handlerDidFinish:(ScXmlApiHandler *)handler;
-- (void)handler:(ScXmlApiHandler *)handler didFailWithCode:(NSString *)code message:(NSString *)message;
-- (void)handler:(ScXmlApiHandler *)handler incrementProgress:(double)progress;
-- (void)handlerWillStart:(ScXmlApiHandler *)handler;
+- (void)http:(ScHttp *)http handler:(ScXmlApiHandler *)handler didFailWithCode:(NSString *)code message:(NSString *)message;
+- (void)http:(ScHttp *)http handler:(ScXmlApiHandler *)handler incrementProgress:(double)progress;
+- (void)http:(ScHttp *)http handlerWillStart:(ScXmlApiHandler *)handler;
 
 @end
 

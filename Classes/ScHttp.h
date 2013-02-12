@@ -46,6 +46,7 @@
     
 }
 
+@property (nonatomic, strong) NSDictionary *userInfo;
 @property (nonatomic, readonly) NSString *uri;
 - (id) initWithUri: (NSString *) uri;
 - (id) initWithUri: (NSString *) uri delegate: (id<ScHttpDelegate>) delegate;
