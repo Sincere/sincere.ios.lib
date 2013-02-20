@@ -162,6 +162,15 @@
     return rec;
 }
 
+- (NSDictionary *)findDictionary:(ScDbQuery *)query
+{
+    ScDbResultSet *rs = [self executeQuery:query];
+    [rs next];
+    NSDictionary *dic = [rs resultDictionary];
+    [rs close];
+    return dic;
+}
+
 - (void)rollback
 {
     BOOL __unused res = [_db rollback];

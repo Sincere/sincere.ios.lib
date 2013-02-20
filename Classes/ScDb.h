@@ -33,6 +33,7 @@
 - (NSMutableDictionary *)fetchPair:(ScDbQuery *)query;
 - (NSMutableArray *)fetchRecords:(ScDbQuery *)query recordName:(NSString *)recordName;
 - (id)findRecord:(ScDbQuery *)query recordName:(NSString *)recordName;
+- (NSDictionary *)findDictionary:(ScDbQuery *)query;
 
 - (BOOL)exists:(ScDbQuery*)sql;
 
