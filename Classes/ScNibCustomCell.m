@@ -10,6 +10,11 @@
 
 @implementation ScNibCustomCell
 
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
+{
+    return [self initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

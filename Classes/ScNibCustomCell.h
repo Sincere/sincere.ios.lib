@@ -12,4 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *view;
 
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
+
 @end
