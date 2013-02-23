@@ -11,14 +11,8 @@
 
 
 @implementation ScHttpXml
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+- (void)loadingDidFinished:(NSURLConnection *)connection
 {
-    if(_progressView)
-    {
-        [_progressView setProgress:1.0];
-    }
-    
     NSString *xmlString = [[NSString alloc]initWithData:_receivedData encoding:NSUTF8StringEncoding];
     DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:xmlString options:0 error:nil];
     [_delegate http:self connection:connection didFinishLoading:[doc rootElement]];

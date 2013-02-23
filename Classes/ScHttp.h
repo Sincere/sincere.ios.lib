@@ -37,6 +37,8 @@
     NSString *_prevQuery;
     NSTimeInterval _autoloadSec;
     BOOL _autoloadWaiting;
+    NSTimer *_timeoutChecker;
+    NSInteger _timeoutCheckCount;
     
     
     @protected
@@ -46,6 +48,7 @@
     
 }
 
+@property (nonatomic, assign) NSInteger timeout;
 @property (nonatomic, strong) NSDictionary *userInfo;
 @property (nonatomic, readonly) NSString *uri;
 - (id) initWithUri: (NSString *) uri;
