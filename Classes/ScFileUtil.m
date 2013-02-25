@@ -49,4 +49,26 @@
     }
 }
 
++ (NSInteger)sizeOfPath:(NSString *)path
+{
+    NSInteger result = 0;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    BOOL isDir;
+    [fm fileExistsAtPath:path isDirectory:&isDir];
+    if(isDir)
+    {
+        for (NSString *child in [fm contentsOfDirectoryAtPath:path error:nil])
+        {
+            result += [self sizeOfPath:[path stringByAppendingPathComponent:child]];
+        }
+    }
+    else
+    {
+        result = [[[fm attributesOfItemAtPath:path error:nil] objectForKey:NSFileSize] integerValue];
+    }
+    
+    return result;
+}
+
 @end

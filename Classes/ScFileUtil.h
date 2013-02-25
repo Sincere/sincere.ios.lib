@@ -14,7 +14,7 @@
 @interface ScFileUtil : NSObject
 
 + (BOOL)createDirectoryIfNeed:(NSString *)path;
-
 + (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL;
++ (NSInteger)sizeOfPath:(NSString *)path;
 
 @end
