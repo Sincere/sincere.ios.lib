@@ -103,26 +103,10 @@
         {
             [NSException raise:@"ScFailRequestException" format:@"Fail to request for %@.", request];
         }
-        
-        _timeoutCheckCount = 0;
-        _timeoutChecker = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkTimeout:) userInfo:nil repeats:YES];
     }
 }
 
 #pragma mark - private
-- (void)checkTimeout:(NSTimer *)timeoutTimer
-{
-    ++_timeoutCheckCount;
-    
-    if(_timeoutCheckCount >= self.timeout)
-    {
-        [_timeoutChecker invalidate];
-        [_currentConnection cancel];
-        NSError *error = [NSError errorWithDomain:@"ScHttpTimeout" code:408 userInfo:nil];
-        [_delegate http:self connection:_currentConnection didFailWithError:error];
-    }
-}
-
 - (NSString*)buildParameters
 {
     NSMutableString *strParams = [NSMutableString string];
@@ -297,7 +281,6 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    _timeoutCheckCount = 0;
     _loadedBytes += [data length];
     double progress = _loadedBytes/_totalBytes;
     
@@ -313,13 +296,11 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [_timeoutChecker invalidate];
     [_delegate http:self connection:connection didFailWithError:error];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    [_timeoutChecker invalidate];
     if(_progressView)
     {
         [_progressView setProgress:1.0];

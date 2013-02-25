@@ -37,8 +37,6 @@
     NSString *_prevQuery;
     NSTimeInterval _autoloadSec;
     BOOL _autoloadWaiting;
-    NSTimer *_timeoutChecker;
-    NSInteger _timeoutCheckCount;
     
     
     @protected
