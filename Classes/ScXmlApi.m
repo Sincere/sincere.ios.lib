@@ -80,18 +80,20 @@
         
         if([pagePath hasMore])
         {
-            
-            
             for (int i=0; i<self.maxThreadCount; i++)
             {
-                ScHttpXml *request = [[ScHttpXml alloc]initWithUri:_uri delegate:handler];
-                for (NSString *key in _params)
+                NSString *pid = [self popPageId];
+                if(pid != nil)
                 {
-                    [request setParam:[_params objectForKey:key] forKey:key];
+                    ScHttpXml *request = [[ScHttpXml alloc]initWithUri:_uri delegate:handler];
+                    for (NSString *key in _params)
+                    {
+                        [request setParam:[_params objectForKey:key] forKey:key];
+                    }
+                    
+                    [request setParam:pid forKey: self.pageName];
+                    [self loadHttp:request];
                 }
-                
-                [request setParam:[self popPageId] forKey: self.pageName];
-                [self loadHttp:request];
             }
         }
     }
