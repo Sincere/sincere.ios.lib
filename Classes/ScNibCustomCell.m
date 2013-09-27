@@ -26,13 +26,6 @@
     return self;
 }
 
-
-//- (void)drawRect:(CGRect)rect
-//{
-//    [super drawRect:rect];
-//    self.view.frame = self.contentView.bounds;
-//}
-
 - (NSString *)nibName
 {
     NSAssert(NO, @"This is an abstract method and should be overridden");
