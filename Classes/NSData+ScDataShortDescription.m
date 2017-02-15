@@ -16,15 +16,15 @@
     
     if(length > 1000)
     {
-        return [NSString stringWithFormat:@"#NSData %dKB(%d)", length / 1000, length];
+        return [NSString stringWithFormat:@"#NSData %luKB(%lu)", (unsigned long)length / 1000, (unsigned long)length];
     }
     else if(length > 1000 * 1000)
     {
-        return [NSString stringWithFormat:@"#NSData %dMB(%d)", length / (1000 * 1000), length];
+        return [NSString stringWithFormat:@"#NSData %luMB(%lu)", (unsigned long)length / (1000 * 1000), (unsigned long)length];
     }
     else
     {
-        return [NSString stringWithFormat:@"#NSData %dB", [self length]];
+        return [NSString stringWithFormat:@"#NSData %luB", (unsigned long)[self length]];
     }
 }
 

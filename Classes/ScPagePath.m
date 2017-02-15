@@ -29,7 +29,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ index:%d length:%d", [super description], _index, _length];
+    return [NSString stringWithFormat:@"%@ index:%ld length:%ld", [super description], (long)_index, (long)_length];
 }
 
 - (BOOL)hasMore

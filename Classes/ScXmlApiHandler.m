@@ -21,7 +21,7 @@
     NSError *error = [self errorInXmlElement:response http:http];
     if(error)
     {
-        [self http:http didFailWithCode:[NSString stringWithFormat:@"%d", error.code] message:[error localizedDescription]];
+        [self http:http didFailWithCode:[NSString stringWithFormat:@"%ld", (long)error.code] message:[error localizedDescription]];
     }
     else
     {
@@ -42,7 +42,7 @@
 
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self http:http didFailWithCode:@"9999" message:[NSString stringWithFormat:@"%d : %@", [error code], [error localizedDescription]]];
+    [self http:http didFailWithCode:@"9999" message:[NSString stringWithFormat:@"%ld : %@", (long)[error code], [error localizedDescription]]];
 }
 
 - (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response

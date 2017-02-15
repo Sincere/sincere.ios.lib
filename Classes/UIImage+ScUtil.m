@@ -10,8 +10,8 @@
 
 static CGImageRef createMaskWithImage(CGImageRef image)
 {
-    int maskWidth               = CGImageGetWidth(image);
-    int maskHeight              = CGImageGetHeight(image);
+    int maskWidth               = (int)CGImageGetWidth(image);
+    int maskHeight              = (int)CGImageGetHeight(image);
     //  round bytesPerRow to the nearest 16 bytes, for performance's sake
     int bytesPerRow             = (maskWidth + 15) & 0xfffffff0;
     int bufferSize              = bytesPerRow * maskHeight;

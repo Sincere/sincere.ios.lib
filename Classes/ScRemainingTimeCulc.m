@@ -59,7 +59,7 @@
     else
     {
         NSAssert(self.secFormat != nil, @"Second format is empty.");
-        return [NSString stringWithFormat:self.secFormat, [NSString stringWithFormat:@"%d", sec]];
+        return [NSString stringWithFormat:self.secFormat, [NSString stringWithFormat:@"%lu", (unsigned long)sec]];
     }
 }
 
