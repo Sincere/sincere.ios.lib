@@ -89,7 +89,7 @@
             NSData *httpBody = [query dataUsingEncoding:NSUTF8StringEncoding];
             
             [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-            [request setValue:[NSString stringWithFormat:@"%d", [httpBody length]] forHTTPHeaderField:@"Content-Length"];
+            [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[httpBody length]] forHTTPHeaderField:@"Content-Length"];
             [request setHTTPBody: httpBody];
         }
         else

@@ -140,7 +140,7 @@
         }
         else
         {
-            NSString *pid = [NSString stringWithFormat:@"%d", (_maxPageCount - _restPageCount) + 1];
+            NSString *pid = [NSString stringWithFormat:@"%d", (int)(_maxPageCount - _restPageCount) + 1];
             --_restPageCount;
             
             return pid;
