@@ -21,4 +21,21 @@
     }
 }
 
++ (UIAlertController *) createSimpleAlert: (NSString *)message{
+    return [self createSimpleAlert:message withTitle:nil];
+}
+
++ (UIAlertController *) createSimpleAlert: (NSString *)message withTitle: (NSString *)title{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle: title
+                                        message: message
+                                 preferredStyle: UIAlertControllerStyleAlert];
+    
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
+                             style: UIAlertActionStyleDefault
+                           handler: nil];
+    [alert addAction: ok];
+    
+    return alert;
+}
+
 @end
