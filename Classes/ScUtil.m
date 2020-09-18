@@ -21,11 +21,11 @@
     }
 }
 
-+ (UIAlertController *) createSimpleAlert: (NSString *)message{
-    return [self createSimpleAlert:message withTitle:nil];
++ (void) showAlert: (NSString *)message{
+    return [self showAlert:message withTitle:nil];
 }
 
-+ (UIAlertController *) createSimpleAlert: (NSString *)message withTitle: (NSString *)title{
++ (void) showAlert: (NSString *)message withTitle: (NSString *)title{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle: title
                                         message: message
                                  preferredStyle: UIAlertControllerStyleAlert];
@@ -35,7 +35,8 @@
                            handler: nil];
     [alert addAction: ok];
     
-    return alert;
+    UIViewController *rootController = [[[[UIApplication sharedApplication]delegate] window] rootViewController];
+    [rootController presentViewController:alert animated:YES completion:nil];
 }
 
 @end

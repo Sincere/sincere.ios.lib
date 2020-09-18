@@ -11,6 +11,6 @@
 @interface ScUtil : NSObject
 
 + (void) fixButtonLabelConstraints: (UIButton *) button;
-+ (UIAlertController *) createSimpleAlert: (NSString *)message;
-+ (UIAlertController *) createSimpleAlert: (NSString *)message withTitle: (NSString *)title;
++ (void) showAlert: (NSString *)message;
++ (void) showAlert: (NSString *)message withTitle: (NSString *)title;
 @end
