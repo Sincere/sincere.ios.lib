@@ -10,7 +10,11 @@
 
 @interface ScUtil : NSObject
 
-+ (void) fixButtonLabelConstraints: (UIButton *) button;
-+ (void) showAlert: (NSString *)message;
-+ (void) showAlert: (NSString *)message withTitle: (NSString *)title;
++ (void) fixButtonLabelConstraints: (nonnull UIButton *) button;
++ (nonnull UIAlertController *) createAlert: (nonnull NSString *)message;
++ (nonnull UIAlertController *) createAlert: (nonnull NSString *)message withTitle: (nullable NSString *)title;
++ (nonnull UIAlertController *) createAlert: (nonnull NSString *)message withTitle: (nullable NSString *)title handler:(void (^ __nullable)(UIAlertAction * _Nullable action))handler;
++ (void) showAlert: (nonnull NSString *)message;
++ (void) showAlert: (nonnull NSString *)message withTitle: (nullable NSString *)title;
++ (void) showAlert: (nonnull NSString *)message withTitle: (nullable NSString *)title handler:(void (^ __nullable)(UIAlertAction * _Nullable action))handler;
 @end
