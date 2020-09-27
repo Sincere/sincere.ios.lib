@@ -11,7 +11,7 @@
 
 
 @implementation ScHttpXml
-- (void)loadingDidFinished:(NSURLConnection *)connection
+- (void)loadingDidFinished:(NSURLSessionTask *)connection
 {
     NSString *xmlString = [[NSString alloc]initWithData:_receivedData encoding:NSUTF8StringEncoding];
     DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:xmlString options:0 error:nil];

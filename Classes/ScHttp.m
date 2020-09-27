@@ -98,11 +98,118 @@
         }
         
         //リクエストスタート
-        _currentConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        if (!_currentConnection)
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration
+                                                              delegate:self
+                                                         delegateQueue:nil];
+        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request];
+        
+//        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//            ScLog(@"%@", response);
+//        }];
+        [dataTask resume];
+        ScLog(@"%@", request);
+    }
+}
+
+#pragma mark - NSURLSessionDataDelegate
+//- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+//{
+//    ScLog(@"Start load %@ : post[%@]", [connection currentRequest], [[NSString alloc] initWithData:[[connection currentRequest]HTTPBody] encoding:NSUTF8StringEncoding]);
+//    _totalBytes = [response expectedContentLength];
+//    _loadedBytes = 0.0;
+//
+//    if(_progressView)
+//    {
+//        [_progressView setProgress:_loadedBytes];
+//    }
+//
+//    [_receivedData setLength:_loadedBytes];
+//    [_delegate http:self connection:connection didReceiveResponse:response];
+//}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+                                 didReceiveResponse:(NSURLResponse *)response
+                                  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+    ScLog(@"----%@", response);
+    _totalBytes = [response expectedContentLength];
+    _loadedBytes = 0.0;
+    
+    if(_progressView)
+    {
+        [_progressView setProgress:_loadedBytes];
+    }
+    
+    [_receivedData setLength:_loadedBytes];
+    [_delegate http:self connection:dataTask didReceiveResponse:response];
+
+    // didReceivedData と didCompleteWithError が呼ばれるように、通常継続の定数をハンドラーに渡す
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+//- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+//{
+//    _loadedBytes += [data length];
+//    double progress = _loadedBytes/_totalBytes;
+//
+//    if(_progressView)
+//    {
+//        [_progressView setProgress:(progress)];
+//    }
+//
+//    [_delegate http:self connection:connection progress:progress];
+//
+//    [_receivedData appendData:data];
+//}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
+{
+    ScLog(@"%@", data);
+    _loadedBytes += [data length];
+    double progress = _loadedBytes/_totalBytes;
+    
+    if(_progressView)
+    {
+        [_progressView setProgress:(progress)];
+    }
+    
+    [_delegate http:self connection:dataTask progress:progress];
+    
+    [_receivedData appendData:data];
+}
+
+//- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+//{
+//    [_delegate http:self connection:connection didFailWithError:error];
+//}
+
+//- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+//{
+//    if(_progressView)
+//    {
+//        [_progressView setProgress:1.0];
+//    }
+//
+//    [self loadingDidFinished:connection];
+//}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    ScLog(@"%@", error);
+    if (error) {
+        [_delegate http:self connection:task didFailWithError:error];
+    } else {
+        if(_progressView)
         {
-            [NSException raise:@"ScFailRequestException" format:@"Fail to request for %@.", request];
+            [_progressView setProgress:1.0];
         }
+        
+        ScLog(@"%@", [NSThread currentThread]);
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+                [self loadingDidFinished:task];
+        });
+        
     }
 }
 
@@ -258,55 +365,9 @@
     }
 }
 
-- (void)loadingDidFinished:(NSURLConnection *)connection
+- (void)loadingDidFinished:(NSURLSessionTask *)connection
 {
     [_delegate http:self connection: connection didFinishLoading:_receivedData];
-}
-
-#pragma mark - NSURLConnectionDelegate
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    ScLog(@"Start load %@ : post[%@]", [connection currentRequest], [[NSString alloc] initWithData:[[connection currentRequest]HTTPBody] encoding:NSUTF8StringEncoding]);
-    _totalBytes = [response expectedContentLength];
-    _loadedBytes = 0.0;
-    
-    if(_progressView)
-    {
-        [_progressView setProgress:_loadedBytes];
-    }
-    
-    [_receivedData setLength:_loadedBytes];
-    [_delegate http:self connection:connection didReceiveResponse:response];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    _loadedBytes += [data length];
-    double progress = _loadedBytes/_totalBytes;
-    
-    if(_progressView)
-    {
-        [_progressView setProgress:(progress)];
-    }
-    
-    [_delegate http:self connection:connection progress:progress];
-    
-    [_receivedData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    [_delegate http:self connection:connection didFailWithError:error];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    if(_progressView)
-    {
-        [_progressView setProgress:1.0];
-    }
-    
-    [self loadingDidFinished:connection];
 }
 
 @end

@@ -14,10 +14,10 @@
 @class ScHttp;
 @protocol ScHttpDelegate
 
-- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
-- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFinishLoading:(id)response;
-- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
-- (void)http:(ScHttp *)http connection:(NSURLConnection *)connection progress:(double)progress;
+- (void)http:(ScHttp *)http connection:(NSURLSessionDataTask *)connection didReceiveResponse:(NSURLResponse *)response;
+- (void)http:(ScHttp *)http connection:(NSURLSessionTask *)connection didFinishLoading:(id)response;
+- (void)http:(ScHttp *)http connection:(NSURLSessionTask *)connection didFailWithError:(NSError *)error;
+- (void)http:(ScHttp *)http connection:(NSURLSessionDataTask *)connection progress:(double)progress;
 
 @optional
 - (void)startAutoLoadWait;
@@ -25,13 +25,13 @@
 
 @end
 
-@interface ScHttp : NSObject<NSURLConnectionDelegate>
+@interface ScHttp : NSObject<NSURLSessionDataDelegate>
 {
     @private
     float _totalBytes;
     float _loadedBytes;
     NSMutableDictionary *_params;
-    NSURLConnection *_currentConnection;
+    NSURLSessionDataTask *_currentConnection;
     NSString *_baseUri;
     NSString *_httpMethod;
     NSString *_prevQuery;
