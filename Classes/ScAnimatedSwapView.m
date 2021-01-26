@@ -40,31 +40,37 @@
         {
             if([_views count] > 0)
             {
-                _addingView = [_views objectAtIndex:0];
-                
-                [_views removeObjectAtIndex:0];
-                [self addSubview:_addingView];
-                _addingView.frame = _nextFrame;
-                
-                [UIView animateWithDuration:self.animationDuration animations:^{
-                   [self scrollRectToVisible:_nextFrame animated:NO];
-                }completion:^(BOOL finished){
-                    @synchronized(self)
-                    {
-                        if(_currentView != nil)
-                        {
-                            [_currentView removeFromSuperview];
-                        }
+                // メインスレッドで行われないのでクラッシュする。強制的にメインスレッドへ。
+                dispatch_async(
+                    dispatch_get_main_queue(),
+                    ^{
+                        _addingView = [_views objectAtIndex:0];
                         
-                        _currentView = _addingView;
-                        _addingView = nil;
+                        [_views removeObjectAtIndex:0];
+                        [self addSubview:_addingView];
+                        _addingView.frame = _nextFrame;
                         
-                        _currentView.frame = _stageFrame;
-                        [self scrollRectToVisible:_stageFrame animated:NO];
-                        
-                        [self toNextLabel];
+                        [UIView animateWithDuration:self.animationDuration animations:^{
+                           [self scrollRectToVisible:_nextFrame animated:NO];
+                        }completion:^(BOOL finished){
+                            @synchronized(self)
+                            {
+                                if(_currentView != nil)
+                                {
+                                    [_currentView removeFromSuperview];
+                                }
+                                
+                                _currentView = _addingView;
+                                _addingView = nil;
+                                
+                                _currentView.frame = _stageFrame;
+                                [self scrollRectToVisible:_stageFrame animated:NO];
+                                
+                                [self toNextLabel];
+                            }
+                        }];
                     }
-                }];
+                );
             }
         }
     }
